@@ -1,0 +1,59 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ folder }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ folder }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container" class="ion-padding">
+    <strong class="capitalize">{{ folder }}</strong>
+    <p>
+      Bienvenido a <strong>Urban Skateshop</strong> 🛹<br>
+      Somos una tienda dedicada a la cultura del skate, ofreciendo tablas, ropa y accesorios
+      de las mejores marcas del mercado.
+    </p>
+
+    <p>
+      Síguenos en nuestras redes para no perderte las últimas novedades:
+      <br>
+      📸 Instagram: <a href="https://instagram.com" target="_blank">@urbanskateshop</a><br>
+      💬 TikTok: <a href="https://tiktok.com" target="_blank">@urbanskateshop</a>
+    </p>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label><strong>Tendencias 🔥</strong></ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>
+          <h2>Tabla Element "Section"</h2>
+          <p>Una de las más vendidas, perfecta para todo tipo de terreno.</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Zapatillas Vans Old Skool</h2>
+          <p>Clásicas y resistentes, favoritas de los skaters.</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Casco Pro-Tec Classic</h2>
+          <p>Seguridad y comodidad en cada sesión.</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
