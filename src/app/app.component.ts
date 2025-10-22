@@ -28,13 +28,13 @@ import {
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inicio', url: '/home', icon: 'home' },
-    { title: 'Productos', url: '/productos', icon: 'storefront' },
-    { title: 'Carrito', url: '/carrito', icon: 'cart' },
-    { title: 'Mis pedidos', url: '/pedidos', icon: 'receipt' },
-    { title: 'Favoritos', url: '/favoritos', icon: 'heart' },
-    { title: 'Mi cuenta', url: '/cuenta', icon: 'person' },
-    { title: 'Configuración', url: '/configuracion', icon: 'settings' },
+    { title: 'Inicio', url: '/folder/inicio', icon: 'home' },
+    { title: 'Productos', url: '/folder/productos', icon: 'storefront' },
+    { title: 'Carrito', url: '/folder/carrito', icon: 'cart' },
+    { title: 'Favoritos', url: '/folder/favoritos', icon: 'heart' },
+    { title: 'Pedidos', url: '/folder/pedidos', icon: 'cube' },
+    { title: 'Cuenta', url: '/folder/cuenta', icon: 'person' },
+    { title: 'Configuración', url: '/folder/configuracion', icon: 'settings' },
   ];
 
   public labels = ['Ofertas', 'Marcas', 'Accesorios', 'Ropa', 'Tablas', 'Zapatos'];

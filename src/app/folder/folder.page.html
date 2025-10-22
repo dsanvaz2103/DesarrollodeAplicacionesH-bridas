@@ -15,45 +15,87 @@
   </ion-header>
 
   <div id="container" class="ion-padding">
-    <strong class="capitalize">{{ folder }}</strong>
-    <p>
-      Bienvenido a <strong>Urban Skateshop</strong> 🛹<br>
-      Somos una tienda dedicada a la cultura del skate, ofreciendo tablas, ropa y accesorios
-      de las mejores marcas del mercado.
-    </p>
 
-    <p>
-      Síguenos en nuestras redes para no perderte las últimas novedades:
-      <br>
-      📸 Instagram: <a href="https://instagram.com" target="_blank">@urbanskateshop</a><br>
-      💬 TikTok: <a href="https://tiktok.com" target="_blank">@urbanskateshop</a>
-    </p>
+    <!-- ✅ INICIO -->
+    <ng-container *ngIf="folder === 'Inicio'">
+      <strong>Bienvenido a Urban Skateshop 🛹</strong>
+      <p>
+        Somos una tienda dedicada a la cultura del skate, ofreciendo tablas, ropa y accesorios
+        de las mejores marcas del mercado.
+      </p>
+      <p>
+        Síguenos en redes sociales:<br>
+        📸 Instagram: <a href="https://instagram.com" target="_blank">@urbanskateshop</a><br>
+        💬 TikTok: <a href="https://tiktok.com" target="_blank">@urbanskateshop</a>
+      </p>
 
-    <ion-list>
-      <ion-list-header>
-        <ion-label><strong>Tendencias 🔥</strong></ion-label>
-      </ion-list-header>
+      <ion-list>
+        <ion-list-header>
+          <ion-label><strong>Tendencias 🔥</strong></ion-label>
+        </ion-list-header>
 
-      <ion-item>
-        <ion-label>
-          <h2>Tabla Element "Section"</h2>
-          <p>Una de las más vendidas, perfecta para todo tipo de terreno.</p>
-        </ion-label>
-      </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2>Tabla Element "Section"</h2>
+            <p>Una de las más vendidas, perfecta para todo tipo de terreno.</p>
+          </ion-label>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>
-          <h2>Zapatillas Vans Old Skool</h2>
-          <p>Clásicas y resistentes, favoritas de los skaters.</p>
-        </ion-label>
-      </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2>Zapatillas Vans Old Skool</h2>
+            <p>Clásicas y resistentes, favoritas de los skaters.</p>
+          </ion-label>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>
-          <h2>Casco Pro-Tec Classic</h2>
-          <p>Seguridad y comodidad en cada sesión.</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+        <ion-item>
+          <ion-label>
+            <h2>Casco Pro-Tec Classic</h2>
+            <p>Seguridad y comodidad en cada sesión.</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+
+    <!-- ✅ PRODUCTOS -->
+    <ng-container *ngIf="folder === 'Productos'">
+      <strong>Catálogo de Productos 🛒</strong>
+      <p>Explora nuestras tablas, ruedas, zapatillas y accesorios de las mejores marcas.</p>
+      <p>Próximamente podrás comprar directamente desde esta sección.</p>
+    </ng-container>
+
+    <!-- ✅ CARRITO -->
+    <ng-container *ngIf="folder === 'Carrito'">
+      <strong>Tu Carrito 🧾</strong>
+      <p>Aquí aparecerán los productos que agregues.</p>
+      <p>De momento, tu carrito está vacío 😅</p>
+    </ng-container>
+
+    <!-- ✅ FAVORITOS -->
+    <ng-container *ngIf="folder === 'Favoritos'">
+      <strong>Favoritos ❤️</strong>
+      <p>Guarda tus productos preferidos para revisarlos más tarde.</p>
+      <p>No tienes ningún favorito por ahora.</p>
+    </ng-container>
+
+    <!-- ✅ PEDIDOS -->
+    <ng-container *ngIf="folder === 'Pedidos'">
+      <strong>Historial de Pedidos 📦</strong>
+      <p>Aquí podrás ver tus pedidos anteriores y su estado de entrega.</p>
+    </ng-container>
+
+    <!-- ✅ CUENTA -->
+    <ng-container *ngIf="folder === 'Cuenta'">
+      <strong>Mi Cuenta 👤</strong>
+      <p>Gestiona tus datos personales, direcciones y métodos de pago.</p>
+    </ng-container>
+
+    <!-- ✅ CONFIGURACIÓN -->
+    <ng-container *ngIf="folder === 'Configuración'">
+      <strong>Configuración ⚙️</strong>
+      <p>Personaliza la aplicación según tus preferencias.</p>
+      <p>Modo oscuro, idioma, notificaciones y más próximamente.</p>
+    </ng-container>
+
   </div>
 </ion-content>
