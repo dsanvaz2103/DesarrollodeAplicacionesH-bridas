@@ -31,8 +31,6 @@ export class AppComponent {
     { title: 'Inicio', url: '/folder/inicio', icon: 'home' },
     { title: 'Productos', url: '/folder/productos', icon: 'storefront' },
     { title: 'Carrito', url: '/folder/carrito', icon: 'cart' },
-    { title: 'Favoritos', url: '/folder/favoritos', icon: 'heart' },
-    { title: 'Pedidos', url: '/folder/pedidos', icon: 'cube' },
     { title: 'Cuenta', url: '/folder/cuenta', icon: 'person' },
     { title: 'Configuración', url: '/folder/configuracion', icon: 'settings' },
   ];
