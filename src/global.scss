@@ -35,3 +35,14 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+h2 {
+  color: var(--ion-color-primary);
+}
+
+.card-sombreada {
+  --background: var(--ion-color-primary-shade);
+  --color: var(--ion-color-primary-contrast);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}

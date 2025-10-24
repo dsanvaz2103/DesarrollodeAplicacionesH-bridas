@@ -1,29 +1,21 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import {
-  IonHeader, IonToolbar, IonTitle, IonContent,
-  IonButtons, IonMenuButton, IonList, IonListHeader, IonItem, IonLabel
-} from '@ionic/angular/standalone';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-folder',
   templateUrl: './folder.page.html',
   styleUrls: ['./folder.page.scss'],
   standalone: true,
-  imports: [
-    IonHeader, IonToolbar, IonTitle, IonContent,
-    IonButtons, IonMenuButton, IonList, IonListHeader, IonItem, IonLabel,
-    CommonModule
-  ],
+  imports: [CommonModule, IonicModule],
 })
-export class FolderPage {
-  folder: string = '';
+export class FolderPage implements OnInit {
+  folder!: string;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.folder = this.route.snapshot.paramMap.get('id') || 'inicio';
-    this.folder = this.folder.charAt(0).toUpperCase() + this.folder.slice(1);
+    this.folder = this.activatedRoute.snapshot.paramMap.get('id') || 'inicio';
   }
 }

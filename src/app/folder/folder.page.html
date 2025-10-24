@@ -1,101 +1,201 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ folder }}</ion-title>
+    <ion-title>{{ folder | titlecase }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
+    <ion-toolbar color="primary">
+      <ion-title size="large">{{ folder | titlecase }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container" class="ion-padding">
+  <ng-container [ngSwitch]="folder">
 
-    <!-- ✅ INICIO -->
-    <ng-container *ngIf="folder === 'Inicio'">
-      <strong>Bienvenido a Urban Skateshop 🛹</strong>
-      <p>
-        Somos una tienda dedicada a la cultura del skate, ofreciendo tablas, ropa y accesorios
-        de las mejores marcas del mercado.
-      </p>
-      <p>
-        Síguenos en redes sociales:<br>
-        📸 Instagram: <a href="https://instagram.com" target="_blank">@urbanskateshop</a><br>
-        💬 TikTok: <a href="https://tiktok.com" target="_blank">@urbanskateshop</a>
-      </p>
+    <!-- 🏠 INICIO -->
+    <ng-container *ngSwitchCase="'inicio'">
+      <ion-grid>
+        <!-- Bienvenida -->
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <img
+              src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c2thdGVib2FyZGluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500"
+              alt="Skateboard"
+              style="border-radius: 10px; width: 100%; height: auto;"
+            >
+          </ion-col>
+          <ion-col size="12">
+            <div class="ion-text-center ion-padding">
+              <h2 style="color: var(--ion-color-primary)">Bienvenido a Urban Skateshop 🛹</h2>
+              <p>
+                Somos una tienda dedicada al mundo del skateboarding, ofreciendo tablas,
+                ropa y accesorios de las mejores marcas del mercado.
+              </p>
+              <ion-button color="primary" expand="block">Ver Productos</ion-button>
+            </div>
+          </ion-col>
+        </ion-row>
 
-      <ion-list>
-        <ion-list-header>
-          <ion-label><strong>Tendencias 🔥</strong></ion-label>
-        </ion-list-header>
+        <!-- Tendencias -->
+        <ion-row class="ion-margin-top">
+          <ion-col size="12">
+            <h3 style="color: var(--ion-color-primary)">Tendencias 🔥</h3>
+          </ion-col>
 
-        <ion-item>
-          <ion-label>
-            <h2>Tabla Element "Section"</h2>
-            <p>Una de las más vendidas, perfecta para todo tipo de terreno.</p>
-          </ion-label>
-        </ion-item>
+          <ion-col size="12" size-md="4">
+            <ion-item class="card-sombreada" lines="none">
+              <ion-img src="https://images.napali.app/global/element-products/all/default/hi-res/f4dca1elpp_element,p_0001_frt1.jpg" alt="Tabla Element"></ion-img>
+              <div class="ion-padding-top ion-text-center">
+                <strong>Tabla Element "Section"</strong><br>
+                La favorita de los riders urbanos.
+              </div>
+            </ion-item>
+          </ion-col>
 
-        <ion-item>
-          <ion-label>
-            <h2>Zapatillas Vans Old Skool</h2>
-            <p>Clásicas y resistentes, favoritas de los skaters.</p>
-          </ion-label>
-        </ion-item>
+          <ion-col size="12" size-md="4">
+            <ion-item class="card-sombreada" lines="none">
+              <ion-img src="https://www.emp-online.es/dw/image/v2/BBQV_PRD/on/demandware.static/-/Sites-master-emp/default/dwc60c8de8/images/2/5/8/0/258076a-emp.jpg?sfrm=png" alt="Vans Old Skool"></ion-img>
+              <div class="ion-padding-top ion-text-center">
+                <strong>Vans Old Skool</strong><br>
+                Comodidad y estilo en cada truco.
+              </div>
+            </ion-item>
+          </ion-col>
 
-        <ion-item>
-          <ion-label>
-            <h2>Casco Pro-Tec Classic</h2>
-            <p>Seguridad y comodidad en cada sesión.</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+          <ion-col size="12" size-md="4">
+            <ion-item class="card-sombreada" lines="none">
+              <ion-img src="https://m.media-amazon.com/images/I/51zOxctFrUL._AC_SX679_.jpg" alt="Casco Pro-Tec"></ion-img>
+              <div class="ion-padding-top ion-text-center">
+                <strong>Casco Pro-Tec Classic</strong><br>
+                Protección con diseño clásico.
+              </div>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ng-container>
 
-    <!-- ✅ PRODUCTOS -->
-    <ng-container *ngIf="folder === 'Productos'">
-      <strong>Catálogo de Productos 🛒</strong>
-      <p>Explora nuestras tablas, ruedas, zapatillas y accesorios de las mejores marcas.</p>
-      <p>Próximamente podrás comprar directamente desde esta sección.</p>
+    <!-- 🛍️ PRODUCTOS -->
+    <ng-container *ngSwitchCase="'productos'">
+      <ion-grid>
+        <ion-row class="ion-text-center ion-margin-top">
+          <ion-col size="12">
+            <h2 style="color: var(--ion-color-primary)">Productos</h2>
+            <p>Explora nuestra colección de tablas, ropa y accesorios para todos los niveles.</p>
+          </ion-col>
+
+          <ion-col size="12" size-md="4">
+            <ion-item class="card-sombreada" lines="none">
+                <ion-thumbnail slot="start">
+                  <img src="https://cdn.skatepro.com/product/520/santa-cruz-classic-dot-skateboard-deck-c8.webp" alt="Tabla Skate Pro" />
+                </ion-thumbnail>
+                <div class="ion-padding-top ion-text-center" style="width: 100%;">
+                  <strong>Tabla Skate Pro</strong><br>
+                  Ideal para principiantes y expertos.
+                  </div>
+            </ion-item>
+          </ion-col>
+
+
+          <ion-col size="12" size-md="4">
+            <ion-item class="card-sombreada" lines="none">
+              <ion-img src="https://images.napali.app/global/dcshoes-products/all/default/hi-res/adys100634_dcshoes,p_210_frt4.jpg" alt="Producto 2"></ion-img>
+              <div class="ion-padding-top ion-text-center">
+                <strong>Zapatillas Skate X</strong><br>
+                Comodidad y estilo en cada truco.
+              </div>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="12" size-md="4">
+            <ion-item class="card-sombreada" lines="none">
+              <ion-img src="https://m.media-amazon.com/images/I/61FOJfTR2WL._SX522_.jpg" alt="Producto 3"></ion-img>
+              <div class="ion-padding-top ion-text-center">
+                <strong>Casco Pro</strong><br>
+                Protección segura y ligera.
+              </div>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
     </ng-container>
 
-    <!-- ✅ CARRITO -->
-    <ng-container *ngIf="folder === 'Carrito'">
-      <strong>Tu Carrito 🧾</strong>
-      <p>Aquí aparecerán los productos que agregues.</p>
-      <p>De momento, tu carrito está vacío 😅</p>
+    <!-- 🛒 CARRITO -->
+    <ng-container *ngSwitchCase="'carrito'">
+      <ion-grid>
+        <ion-row class="ion-text-center">
+          <ion-col>
+            <h2 style="color: var(--ion-color-primary)">Tu carrito está vacío 🛒</h2>
+            <p>Agrega productos para comenzar tu compra.</p>
+            <ion-button color="primary">Ir a Productos</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ng-container>
 
-    <!-- ✅ FAVORITOS -->
-    <ng-container *ngIf="folder === 'Favoritos'">
-      <strong>Favoritos ❤️</strong>
-      <p>Guarda tus productos preferidos para revisarlos más tarde.</p>
-      <p>No tienes ningún favorito por ahora.</p>
+    <!-- ❤️ FAVORITOS -->
+    <ng-container *ngSwitchCase="'favoritos'">
+      <ion-grid>
+        <ion-row class="ion-text-center">
+          <ion-col>
+            <h2 style="color: var(--ion-color-primary)">Favoritos ❤️</h2>
+            <p>Aquí aparecerán tus productos guardados.</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ng-container>
 
-    <!-- ✅ PEDIDOS -->
-    <ng-container *ngIf="folder === 'Pedidos'">
-      <strong>Historial de Pedidos 📦</strong>
-      <p>Aquí podrás ver tus pedidos anteriores y su estado de entrega.</p>
+    <!-- 📦 PEDIDOS -->
+    <ng-container *ngSwitchCase="'pedidos'">
+      <ion-grid>
+        <ion-row class="ion-text-center">
+          <ion-col>
+            <h2 style="color: var(--ion-color-primary)">Mis pedidos 📦</h2>
+            <p>Aún no tienes pedidos realizados.</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ng-container>
 
-    <!-- ✅ CUENTA -->
-    <ng-container *ngIf="folder === 'Cuenta'">
-      <strong>Mi Cuenta 👤</strong>
-      <p>Gestiona tus datos personales, direcciones y métodos de pago.</p>
+    <!-- 👤 CUENTA -->
+    <ng-container *ngSwitchCase="'cuenta'">
+      <ion-grid>
+        <ion-row class="ion-text-center">
+          <ion-col>
+            <h2 style="color: var(--ion-color-primary)">Mi Cuenta 👤</h2>
+            <p>Gestiona tu perfil, dirección y métodos de pago.</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ng-container>
 
-    <!-- ✅ CONFIGURACIÓN -->
-    <ng-container *ngIf="folder === 'Configuración'">
-      <strong>Configuración ⚙️</strong>
-      <p>Personaliza la aplicación según tus preferencias.</p>
-      <p>Modo oscuro, idioma, notificaciones y más próximamente.</p>
+    <!-- ⚙️ CONFIGURACIÓN -->
+    <ng-container *ngSwitchCase="'configuracion'">
+      <ion-grid>
+        <ion-row class="ion-text-center">
+          <ion-col>
+            <h2 style="color: var(--ion-color-primary)">Configuración ⚙️</h2>
+            <p>Personaliza tu experiencia en Urban Skateshop.</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ng-container>
 
-  </div>
+    <!-- 🚫 DEFAULT -->
+    <ng-container *ngSwitchDefault>
+      <ion-grid>
+        <ion-row class="ion-text-center">
+          <ion-col>
+            <h2 style="color: var(--ion-color-primary)">Página no encontrada 😕</h2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
+
+  </ng-container>
 </ion-content>
