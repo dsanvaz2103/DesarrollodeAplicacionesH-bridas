@@ -1,28 +1,25 @@
-ion-menu-button {
-  color: var(--ion-color-primary);
+/* Tamaño uniforme para las imágenes de productos y tendencias */
+.product-thumb {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-#container {
+.product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Espaciado entre tarjetas */
+.trend-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  color: #8c8c8c;
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }

@@ -7,19 +7,19 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
-  homeOutline, homeSharp,
+  homeOutline,
   storefrontOutline, storefrontSharp,
   cartOutline, cartSharp,
   personOutline, personSharp,
-  receiptOutline, receiptSharp,
-  heartOutline, heartSharp,
-  settingsOutline, settingsSharp
+  settingsOutline, settingsSharp,
+  heartOutline, heartSharp
 } from 'ionicons/icons';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
+  standalone: true,
   imports: [
     RouterLink, RouterLinkActive, IonApp, IonSplitPane, IonMenu, IonContent,
     IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel,
@@ -28,24 +28,23 @@ import {
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inicio', url: '/folder/inicio', icon: 'home' },
-    { title: 'Productos', url: '/folder/productos', icon: 'storefront' },
-    { title: 'Carrito', url: '/folder/carrito', icon: 'cart' },
-    { title: 'Cuenta', url: '/folder/cuenta', icon: 'person' },
-    { title: 'Configuración', url: '/folder/configuracion', icon: 'settings' },
+    { title: 'Inicio', url: '/folder/inicio', icon: 'home-outline' },
+    { title: 'Productos', url: '/folder/productos', icon: 'storefront-outline' },
+    { title: 'Carrito', url: '/folder/carrito', icon: 'cart-outline' },
+    { title: 'Cuenta', url: '/folder/cuenta', icon: 'person-outline' },
+    { title: 'Configuración', url: '/folder/configuracion', icon: 'settings-outline' },
   ];
 
   public labels = ['Ofertas', 'Marcas', 'Accesorios', 'Ropa', 'Tablas', 'Zapatos'];
 
   constructor() {
     addIcons({
-      homeOutline, homeSharp,
+      homeOutline,
       storefrontOutline, storefrontSharp,
       cartOutline, cartSharp,
       personOutline, personSharp,
-      receiptOutline, receiptSharp,
-      heartOutline, heartSharp,
-      settingsOutline, settingsSharp
+      settingsOutline, settingsSharp,
+      heartOutline, heartSharp
     });
   }
 }

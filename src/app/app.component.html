@@ -1,33 +1,44 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
+    <!-- ===== MENÚ LATERAL ===== -->
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>Urban Skateshop 🛹</ion-list-header>
-          <ion-note>hi&#64;dsanvaz2103@g.educaand.com</ion-note>
+          <ion-note>hi@dsanvaz2103@g.educaand.com</ion-note>
 
+          <!-- Navegación principal -->
           @for (p of appPages; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
-              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-item
+                routerDirection="root"
+                [routerLink]="[p.url]"
+                lines="none"
+                detail="false"
+                routerLinkActive="selected"
+              >
+                <ion-icon slot="start" [name]="p.icon"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
           }
         </ion-list>
 
+        <!-- Categorías -->
         <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
+          <ion-list-header>Categorías</ion-list-header>
 
           @for (label of labels; track label) {
             <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
+              <ion-icon slot="start" name="heart-outline"></ion-icon>
               <ion-label>{{ label }}</ion-label>
             </ion-item>
           }
         </ion-list>
       </ion-content>
     </ion-menu>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>
