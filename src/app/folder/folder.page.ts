@@ -16,6 +16,7 @@ export class FolderPage implements OnInit {
   folder!: string;
 
   nuevoProducto: Producto = { 
+    id: 0,
     titulo: " ", 
     descripcion: " ", 
     imgUrl: " " 
@@ -23,16 +24,19 @@ export class FolderPage implements OnInit {
 
   listaDeProductos: Producto[] = [
     {
+      id: 0,
       titulo: "Tabla Santa Cruz Classic Dot",
       descripcion: "Ideal para principiantes y expertos.",
       imgUrl: "assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg"
     },
     {
+      id: 0,
       titulo: "Zapatillas DC Shoes",
       descripcion: "Comodidad y estilo en cada truco.",
       imgUrl: "assets/img/adys100634_dcshoes,p_210_frt4.jpg"
     },
     {
+      id: 0,
       titulo: "Casco Pro",
       descripcion: "Protección segura y ligera.",
       imgUrl: "assets/img/protecciones.jpg"
@@ -48,7 +52,7 @@ export class FolderPage implements OnInit {
   agregarProducto() {
     if (this.nuevoProducto.titulo.trim() && this.nuevoProducto.descripcion.trim()) {
       this.listaDeProductos.push({ ...this.nuevoProducto });
-      this.nuevoProducto = { titulo: " ", descripcion: " ", imgUrl: " "};
+      this.nuevoProducto = {id: 0, titulo: " ", descripcion: " ", imgUrl: " "};
     }
   }
 }

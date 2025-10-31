@@ -5,7 +5,7 @@ import { IonButton, IonCard, IonItem, IonImg, IonCheckbox, IonLabel, IonCol, Ion
   selector: 'app-producto-item',
   templateUrl: './producto-item.component.html',
   styleUrls: ['./producto-item.component.scss'],
-  imports: [IonItem, IonThumbnail, IonImg, IonCard, IonLabel, IonButton],
+  imports: [IonItem, IonThumbnail, IonImg, IonCard, IonLabel],
 })
 export class ProductoItemComponent  implements OnInit {
 [x: string]: any;
