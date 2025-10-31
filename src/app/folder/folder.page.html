@@ -22,11 +22,11 @@
         <!-- Bienvenida -->
         <ion-row class="ion-align-items-center">
           <ion-col size="12">
-            <img
-              src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c2thdGVib2FyZGluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500"
+            <ion-img
+              src="assets/img/Cabecera.jpg"
               alt="Skateboard"
-              style="border-radius: 10px; width: 100%; height: auto;"
-            >
+              style="border-radius: 10px; width: 100%; height: auto;">
+            </ion-img>
           </ion-col>
           <ion-col size="12">
             <div class="ion-text-center ion-padding">
@@ -39,53 +39,7 @@
             </div>
           </ion-col>
         </ion-row>
-
-        <!-- Tendencias -->
-        <ion-row class="ion-margin-top">
-          <ion-col size="12">
-            <h3 style="color: var(--ion-color-primary)">Tendencias 🔥</h3>
-          </ion-col>
-
-          <!-- Productos de Tendencia -->
-          <ion-col size="12" size-md="4">
-            <ion-item class="card-sombreada trend-card" lines="none">
-              <ion-thumbnail class="product-thumb">
-                <img src="https://images.napali.app/global/element-products/all/default/hi-res/f4dca1elpp_element,p_0001_frt1.jpg" alt="Tabla Element" />
-              </ion-thumbnail>
-              <div class="ion-text-center">
-                <strong>Tabla Element "Section"</strong><br>
-                La favorita de los riders urbanos.
-              </div>
-            </ion-item>
-          </ion-col>
-
-          <ion-col size="12" size-md="4">
-            <ion-item class="card-sombreada trend-card" lines="none">
-              <ion-thumbnail class="product-thumb">
-                <img src="https://www.emp-online.es/dw/image/v2/BBQV_PRD/on/demandware.static/-/Sites-master-emp/default/dwc60c8de8/images/2/5/8/0/258076a-emp.jpg?sfrm=png" alt="Vans Old Skool" />
-              </ion-thumbnail>
-              <div class="ion-text-center">
-                <strong>Vans Old Skool</strong><br>
-                Comodidad y estilo en cada truco.
-              </div>
-            </ion-item>
-          </ion-col>
-
-          <ion-col size="12" size-md="4">
-            <ion-item class="card-sombreada trend-card" lines="none">
-              <ion-thumbnail class="product-thumb">
-                <img src="https://m.media-amazon.com/images/I/51zOxctFrUL._AC_SX679_.jpg" alt="Casco Pro-Tec" />
-              </ion-thumbnail>
-              <div class="ion-text-center">
-                <strong>Casco Pro-Tec Classic</strong><br>
-                Protección con diseño clásico.
-              </div>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ng-container>
-
+        
     <!-- 🛍️ PRODUCTOS -->
     <ng-container *ngSwitchCase="'productos'">
       <ion-grid>
@@ -95,13 +49,14 @@
             <p>Explora nuestra colección de tablas, ropa y accesorios para todos los niveles.</p>
           </ion-col>
 
+          <!-- PRODUCTOS FIJOS -->
           <ion-col size="12" size-md="4">
             <ion-item class="card-sombreada trend-card" lines="none">
               <ion-thumbnail class="product-thumb">
-                <img src="https://cdn.skatepro.com/product/520/santa-cruz-classic-dot-skateboard-deck-c8.webp" alt="Tabla Skate Pro" />
+                <ion-img src="assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg" alt="Tabla Skate Pro"></ion-img>
               </ion-thumbnail>
               <div class="ion-text-center">
-                <strong>Tabla Skate Pro</strong><br>
+                <strong>Tabla Santa Cruz Classic Dot</strong><br>
                 Ideal para principiantes y expertos.
               </div>
             </ion-item>
@@ -110,10 +65,10 @@
           <ion-col size="12" size-md="4">
             <ion-item class="card-sombreada trend-card" lines="none">
               <ion-thumbnail class="product-thumb">
-                <img src="https://images.napali.app/global/dcshoes-products/all/default/hi-res/adys100634_dcshoes,p_210_frt4.jpg" alt="Zapatillas Skate X" />
+                <ion-img src="assets/img/adys100634_dcshoes,p_210_frt4.jpg" alt="Zapatillas Skate X"></ion-img>
               </ion-thumbnail>
               <div class="ion-text-center">
-                <strong>Zapatillas Skate X</strong><br>
+                <strong>Zapatillas DC Shoes</strong><br>
                 Comodidad y estilo en cada truco.
               </div>
             </ion-item>
@@ -122,7 +77,7 @@
           <ion-col size="12" size-md="4">
             <ion-item class="card-sombreada trend-card" lines="none">
               <ion-thumbnail class="product-thumb">
-                <img src="https://m.media-amazon.com/images/I/61FOJfTR2WL._SX522_.jpg" alt="Casco Pro" />
+                <ion-img src="assets/img/protecciones.jpg" alt="Casco Pro"></ion-img>
               </ion-thumbnail>
               <div class="ion-text-center">
                 <strong>Casco Pro</strong><br>
@@ -130,6 +85,48 @@
               </div>
             </ion-item>
           </ion-col>
+
+          <!-- FORMULARIO PARA NUEVOS PRODUCTOS -->
+          <ion-col size="12" class="ion-margin-top">
+            <h3 style="color: var(--ion-color-primary)">Añadir nuevo producto</h3>
+            <ion-list>
+              <ion-item>
+                <ion-input
+                  label="Nombre del producto"
+                  label-placement="floating"
+                  placeholder="Escribe el nombre"
+                  [(ngModel)]="nuevoProducto.nombre">
+                </ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-input
+                  label="Descripción"
+                  label-placement="floating"
+                  placeholder="Escribe una descripción"
+                  [(ngModel)]="nuevoProducto.descripcion">
+                </ion-input>
+              </ion-item>
+            </ion-list>
+
+            <ion-button expand="block" (click)="agregarProducto()" class="ion-margin-top">
+              Añadir Producto
+            </ion-button>
+          </ion-col>
+
+          <!-- LISTA DINÁMICA DE PRODUCTOS AGREGADOS -->
+          <ion-col *ngFor="let producto of listaDeProductos" size="12" size-md="4" class="ion-margin-top">
+            <ion-item class="card-sombreada trend-card" lines="none">
+              <ion-thumbnail class="product-thumb">
+                <ion-img src="assets/img/placeholder.jpg" alt="{{ producto.nombre }}"></ion-img>
+              </ion-thumbnail>
+              <div class="ion-text-center">
+                <strong>{{ producto.nombre }}</strong><br>
+                {{ producto.descripcion }}
+              </div>
+            </ion-item>
+          </ion-col>
+
         </ion-row>
       </ion-grid>
     </ng-container>

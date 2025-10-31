@@ -1,0 +1,13 @@
+<ion-card *ngFor="let producto of productos">
+  <ion-item class="card-sombreada trend-card" lines="none">
+    <ion-label>
+      {{ producto.titulo }}
+    </ion-label>
+    <ion-label>
+      {{ producto.descripcion }}
+    </ion-label>
+    <ion-label>
+      {{producto.imgUrl}}
+    </ion-label>
+  </ion-item>
+</ion-card>
