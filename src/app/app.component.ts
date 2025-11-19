@@ -3,8 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   IonApp, IonSplitPane, IonMenu, IonContent, IonList,
   IonListHeader, IonNote, IonMenuToggle, IonItem,
-  IonIcon, IonLabel, IonRouterOutlet, IonRouterLink
-} from '@ionic/angular/standalone';
+  IonIcon, IonLabel, IonRouterOutlet, IonRouterLink, IonToolbar, IonTitle, IonHeader } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   homeOutline,
@@ -20,7 +19,7 @@ import {
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonHeader, IonTitle, IonToolbar, 
     RouterLink, RouterLinkActive, IonApp, IonSplitPane, IonMenu, IonContent,
     IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel,
     IonRouterLink, IonRouterOutlet

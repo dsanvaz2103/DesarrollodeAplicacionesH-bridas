@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';  
 import { Producto } from '../interfaces/producto';
 
 @Component({
@@ -10,7 +11,12 @@ import { Producto } from '../interfaces/producto';
   templateUrl: './folder.page.html',
   styleUrls: ['./folder.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule              
+  ],
 })
 export class FolderPage implements OnInit {
   folder!: string;
@@ -23,24 +29,19 @@ export class FolderPage implements OnInit {
   };
 
   listaDeProductos: Producto[] = [
-    {
-      id: 0,
-      titulo: "Tabla Santa Cruz Classic Dot",
-      descripcion: "Ideal para principiantes y expertos.",
-      imgUrl: "assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg"
-    },
-    {
-      id: 0,
-      titulo: "Zapatillas DC Shoes",
-      descripcion: "Comodidad y estilo en cada truco.",
-      imgUrl: "assets/img/adys100634_dcshoes,p_210_frt4.jpg"
-    },
-    {
-      id: 0,
-      titulo: "Casco Pro",
-      descripcion: "Protección segura y ligera.",
-      imgUrl: "assets/img/protecciones.jpg"
-    }
+   { 
+    id: 0, titulo: "Tabla Santa Cruz Classic Dot",
+    descripcion: "Ideal para principiantes y expertos.",
+    imgUrl: "assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg" }, 
+   { 
+    id: 0, titulo: "Zapatillas DC Shoes",
+    descripcion: "Comodidad y estilo en cada truco.", 
+    imgUrl: "assets/img/adys100634_dcshoes,p_210_frt4.jpg" }, 
+   { 
+    id: 0,
+    titulo: "Casco Pro", 
+    descripcion: "Protección segura y ligera.",
+    imgUrl: "assets/img/protecciones.jpg" }
   ];
 
   constructor(private activatedRoute: ActivatedRoute) {}
@@ -52,7 +53,7 @@ export class FolderPage implements OnInit {
   agregarProducto() {
     if (this.nuevoProducto.titulo.trim() && this.nuevoProducto.descripcion.trim()) {
       this.listaDeProductos.push({ ...this.nuevoProducto });
-      this.nuevoProducto = {id: 0, titulo: " ", descripcion: " ", imgUrl: " "};
+      this.nuevoProducto = { id: 0, titulo: " ", descripcion: " ", imgUrl: " " };
     }
   }
 }

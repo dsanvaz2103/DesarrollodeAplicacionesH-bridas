@@ -19,15 +19,13 @@
     <!-- 🏠 INICIO -->
     <ng-container *ngSwitchCase="'inicio'">
       <ion-grid>
-        <!-- Bienvenida -->
         <ion-row class="ion-align-items-center">
           <ion-col size="12">
-            <ion-img
-              src="assets/img/Cabecera.jpg"
-              alt="Skateboard"
+            <ion-img src="assets/img/Cabecera.jpg" alt="Skateboard"
               style="border-radius: 10px; width: 100%; height: auto;">
             </ion-img>
           </ion-col>
+
           <ion-col size="12">
             <div class="ion-text-center ion-padding">
               <h2 style="color: var(--ion-color-primary)">Bienvenido a Urban Skateshop 🛹</h2>
@@ -35,106 +33,72 @@
                 Somos una tienda dedicada al mundo del skateboarding, ofreciendo tablas,
                 ropa y accesorios de las mejores marcas del mercado.
               </p>
-              <ion-button color="primary" expand="block">Ver Productos</ion-button>
+
+              <!-- 🔗 NAVEGAR A PRODUCTOS -->
+              <ion-button color="primary" expand="block" [routerLink]="['/folder/productos']">
+                Ver Productos
+              </ion-button>
+
             </div>
           </ion-col>
         </ion-row>
+      </ion-grid>
+    </ng-container>
 
     <!-- 🛍️ PRODUCTOS -->
     <ng-container *ngSwitchCase="'productos'">
       <ion-grid>
         <ion-row class="ion-text-center ion-margin-top">
+
           <ion-col size="12">
             <h2 style="color: var(--ion-color-primary)">Productos</h2>
             <p>Explora nuestra colección de tablas, ropa y accesorios para todos los niveles.</p>
           </ion-col>
 
-          <ion-col size="12" size-md="4">
+          <!-- ⭐ PRODUCTOS PREDEFINIDOS -->
+          <ion-col *ngFor="let producto of listaDeProductos" size="12" size-md="4">
             <ion-item class="card-sombreada trend-card" lines="none">
               <ion-thumbnail class="product-thumb">
-                <ion-img src="assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg" alt="Tabla Skate Pro"></ion-img>
+                <ion-img [src]="producto.imgUrl" alt="{{ producto.titulo }}"></ion-img>
               </ion-thumbnail>
               <div class="ion-text-center">
-                <strong>Tabla Santa Cruz Classic Dot</strong><br>
-                Ideal para principiantes y expertos.
+                <strong>{{ producto.titulo }}</strong><br>
+                {{ producto.descripcion }}
               </div>
+              <br>
+              <ion-button color="primary" expand="block" [routerLink]="['/folder/productos']">Comprar</ion-button>
             </ion-item>
           </ion-col>
 
-          <ion-col size="12" size-md="4">
-            <ion-item class="card-sombreada trend-card" lines="none">
-              <ion-thumbnail class="product-thumb">
-                <ion-img src="assets/img/adys100634_dcshoes,p_210_frt4.jpg" alt="Zapatillas Skate X"></ion-img>
-              </ion-thumbnail>
-              <div class="ion-text-center">
-                <strong>Zapatillas DC Shoes</strong><br>
-                Comodidad y estilo en cada truco.
-              </div>
-            </ion-item>
-          </ion-col>
-
-          <ion-col size="12" size-md="4">
-            <ion-item class="card-sombreada trend-card" lines="none">
-              <ion-thumbnail class="product-thumb">
-                <ion-img src="assets/img/protecciones.jpg" alt="Casco Pro"></ion-img>
-              </ion-thumbnail>
-              <div class="ion-text-center">
-                <strong>Casco Pro</strong><br>
-                Protección segura y ligera.
-              </div>
-            </ion-item>
-          </ion-col>
-
-          <!-- FORMULARIO PARA NUEVOS PRODUCTOS -->
+          <!-- FORMULARIO PARA NUEVO PRODUCTO -->
           <ion-col size="12" class="ion-margin-top">
             <h3 style="color: var(--ion-color-primary)">Añadir nuevo producto</h3>
+
             <ion-list>
               <ion-item>
-                <ion-input
-                  label="Id del producto"
-                  label-placement="floating"
-                  placeholder="Escribe una descripción"
-                  [(ngModel)]="nuevoProducto.id">
+                <ion-input label="Título" label-placement="floating" placeholder="Nombre del producto"
+                  [(ngModel)]="nuevoProducto.titulo">
                 </ion-input>
               </ion-item>
 
               <ion-item>
-                <ion-input
-                  label="Descripción"
-                  label-placement="floating"
-                  placeholder="Escribe una descripción"
+                <ion-input label="Descripción" label-placement="floating" placeholder="Escribe una descripción"
                   [(ngModel)]="nuevoProducto.descripcion">
                 </ion-input>
               </ion-item>
 
-               <ion-item>
-                <ion-input
-                  label="Imagen"
-                  label-placement="floating"
-                  placeholder="Escribe la url de la imagen del producto"
+              <ion-item>
+                <ion-input label="Imagen" label-placement="floating" placeholder="URL de la imagen"
                   [(ngModel)]="nuevoProducto.imgUrl">
                 </ion-input>
               </ion-item>
+
             </ion-list>
 
             <ion-button expand="block" (click)="agregarProducto()" class="ion-margin-top">
               Añadir Producto
             </ion-button>
           </ion-col>
-
-          <!-- LISTA DINÁMICA DE PRODUCTOS AGREGADOS -->
-          <ion-col *ngFor="let producto of listaDeProductos" size="12" size-md="4" class="ion-margin-top">
-            <ion-item class="card-sombreada trend-card" lines="none">
-              <ion-thumbnail class="product-thumb">
-                <ion-img src="assets/img/placeholder.jpg" alt="{{ producto.nombre }}"></ion-img>
-              </ion-thumbnail>
-              <div class="ion-text-center">
-                <strong>{{ producto.nombre }}</strong><br>
-                {{ producto.descripcion }}
-              </div>
-            </ion-item>
-          </ion-col>
-
         </ion-row>
       </ion-grid>
     </ng-container>
@@ -146,7 +110,59 @@
           <ion-col>
             <h2 style="color: var(--ion-color-primary)">Tu carrito está vacío 🛒</h2>
             <p>Agrega productos para comenzar tu compra.</p>
-            <ion-button color="primary">Ir a Productos</ion-button>
+
+            <ion-col size="12" class="ion-margin-top">
+              <h3 style="color: var(--ion-color-primary)">Productos de la cesta</h3>
+
+              <ion-list>
+
+                <ion-item>
+                  <ion-input label="ID del producto" label-placement="floating" type="number"
+                    [(ngModel)]="nuevoProducto.id">
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input label="Título" label-placement="floating" placeholder="Nombre del producto"
+                    [(ngModel)]="nuevoProducto.titulo">
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input label="Descripción" label-placement="floating" placeholder="Escribe una descripción"
+                    [(ngModel)]="nuevoProducto.descripcion">
+                  </ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-input label="Imagen" label-placement="floating" placeholder="URL de la imagen"
+                    [(ngModel)]="nuevoProducto.imgUrl">
+                  </ion-input>
+                </ion-item>
+
+              </ion-list>
+
+              <ion-button expand="block" (click)="agregarProducto()" class="ion-margin-top">
+                Añadir Producto A Carrito
+              </ion-button>
+            </ion-col>
+
+            <!-- LISTA DINÁMICA DE PRODUCTOS AGREGADOS -->
+            <ion-col *ngFor="let producto of listaDeProductos.slice(3)" size="12" size-md="4" class="ion-margin-top">
+
+              <ion-item class="card-sombreada trend-card" lines="none">
+                <ion-thumbnail class="product-thumb">
+                  <ion-img [src]="producto.imgUrl" alt="{{ producto.titulo }}"></ion-img>
+                </ion-thumbnail>
+                <div class="ion-text-center">
+                  <strong>{{ producto.titulo }}</strong><br>
+                  {{ producto.descripcion }}
+                </div>
+              </ion-item>
+
+            </ion-col>
+
+
           </ion-col>
         </ion-row>
       </ion-grid>

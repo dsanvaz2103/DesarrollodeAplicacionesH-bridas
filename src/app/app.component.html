@@ -1,44 +1,21 @@
-<ion-app>
-  <ion-split-pane contentId="main-content">
-    <!-- ===== MENÚ LATERAL ===== -->
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Urban Skateshop 🛹</ion-list-header>
-          <ion-note>hi@dsanvaz2103@g.educaand.com</ion-note>
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Urban Skateshop</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-          <!-- Navegación principal -->
-          @for (p of appPages; track p; let i = $index) {
-            <ion-menu-toggle auto-hide="false">
-              <ion-item
-                routerDirection="root"
-                [routerLink]="[p.url]"
-                lines="none"
-                detail="false"
-                routerLinkActive="selected"
-              >
-                <ion-icon slot="start" [name]="p.icon"></ion-icon>
-                <ion-label>{{ p.title }}</ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-          }
-        </ion-list>
+  <ion-content>
+    <ion-list>
 
-        <!-- Categorías -->
-        <ion-list id="labels-list">
-          <ion-list-header>Categorías</ion-list-header>
+      <ion-item routerLink="/folder/inicio">🏠 Inicio</ion-item>
+      <ion-item routerLink="/folder/productos">🛍 Productos</ion-item>
+      <ion-item routerLink="/folder/carrito">🛒 Carrito</ion-item>
+      <ion-item routerLink="/folder/cuenta">👤 Cuenta</ion-item>
+      <ion-item routerLink="/folder/configuracion">⚙️ Configuración</ion-item>
 
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon slot="start" name="heart-outline"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          }
-        </ion-list>
-      </ion-content>
-    </ion-menu>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
-    <!-- ===== CONTENIDO PRINCIPAL ===== -->
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
-</ion-app>
+<ion-router-outlet id="main-content"></ion-router-outlet>

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { FolderPage } from './folder/folder.page';
 
 export const routes: Routes = [
   {
@@ -8,6 +9,6 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'folder/inicio',
-    pathMatch: 'full',
-  },
+    pathMatch: 'full'
+  }
 ];
