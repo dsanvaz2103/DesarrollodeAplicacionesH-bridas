@@ -1,13 +1,12 @@
-<ion-card *ngFor="let producto of productos">
-  <ion-item class="card-sombreada trend-card" lines="none">
-    <ion-label>
-      {{ producto.titulo }}
-    </ion-label>
-    <ion-label>
-      {{ producto.descripcion }}
-    </ion-label>
-    <ion-label>
-      {{producto.imgUrl}}
-    </ion-label>
-  </ion-item>
-</ion-card>
+<ion-item #card class="card-sombreada trend-card fade-in" lines="none">
+  <ion-thumbnail slot="start" class="product-thumb">
+    <ion-img [src]="producto.imgUrl" alt="{{ producto.titulo }}"></ion-img>
+  </ion-thumbnail>
+  <div class="ion-text-center">
+    <strong>{{ producto.titulo }}</strong><br>
+    {{ producto.descripcion }}
+  </div>
+  <ion-button color="primary" expand="block" slot="end">
+    Comprar
+  </ion-button>
+</ion-item>

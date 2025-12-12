@@ -1,53 +1,34 @@
 import { Component } from '@angular/core';
-import { IonicModule, ModalController, IonButton, IonInput, IonItem, IonList } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Producto } from '../../interfaces/producto';
 
 @Component({
   selector: 'app-detalle-modal',
-  template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Nuevo Producto</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="cerrar()">Cerrar</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content class="ion-padding">
-      <ion-list>
-        <ion-item>
-          <ion-input placeholder="Título" [(ngModel)]="producto.titulo"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-input placeholder="Descripción" [(ngModel)]="producto.descripcion"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-input placeholder="URL de la imagen" [(ngModel)]="producto.imgUrl"></ion-input>
-        </ion-item>
-      </ion-list>
-
-      <ion-button expand="block" (click)="guardar()">Añadir Producto</ion-button>
-    </ion-content>
-  `,
+  templateUrl: './detalle-modal.component.html',
+  styleUrls: ['./detalle-modal.component.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule]
+  imports: [IonicModule, FormsModule, CommonModule]
 })
 export class DetalleModalComponent {
-  producto: Producto = { id: 0, titulo: '', descripcion: '', imgUrl: '' };
+
+  nuevoProducto: Partial<Producto> = {};
 
   constructor(private modalCtrl: ModalController) {}
 
+  // Cierra el modal sin retornar datos
   cerrar() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  guardar() {
-    if (this.producto.titulo.trim() && this.producto.descripcion.trim()) {
-      this.modalCtrl.dismiss(this.producto, 'confirm');
+  // Envía los datos del nuevo producto al cerrar el modal
+  agregar() {
+    if (this.nuevoProducto.titulo && this.nuevoProducto.descripcion && this.nuevoProducto.imgUrl) {
+      this.modalCtrl.dismiss(this.nuevoProducto, 'confirm');
+    } else {
+      // Puedes agregar un alert si quieres avisar que faltan campos
+      console.warn('Faltan campos por completar');
     }
   }
 }

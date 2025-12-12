@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Detalles del producto</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Agregar Producto</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="cerrar()">Cerrar</ion-button>
     </ion-buttons>
@@ -8,10 +8,17 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-input label="Título" label-placement="floating" [(ngModel)]="nuevoProducto.titulo" placeholder="Nombre del producto"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Descripción" label-placement="floating" [(ngModel)]="nuevoProducto.descripcion" placeholder="Descripción"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Imagen" label-placement="floating" [(ngModel)]="nuevoProducto.imgUrl" placeholder="URL de la imagen"></ion-input>
+    </ion-item>
+  </ion-list>
 
-  <h2>{{ producto.titulo }}</h2>
-  <p>{{ producto.descripcion }}</p>
-
-  <img [src]="producto.imgUrl" width="100%" *ngIf="producto.imgUrl">
-
+  <ion-button expand="block" color="primary" (click)="agregar()">Agregar Producto</ion-button>
 </ion-content>
