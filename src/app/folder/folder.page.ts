@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { IonicModule, ModalController, AnimationController, Animation } from '@ionic/angular';
+import { IonicModule, ModalController, AnimationController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { Producto } from '../interfaces/producto';
 import { DetalleModalComponent } from '../components/detalle-modal/detalle-modal.component';
+import { TaskService } from '../services/task.service'; // <-- Servicio actualizado
 
 @Component({
   selector: 'app-folder',
@@ -25,40 +26,40 @@ export class FolderPage implements OnInit {
   folder!: string;
   cargandoProductos: boolean = true;
   skeletons: number[] = [1, 2, 3];
-
-  listaDeProductos: Producto[] = [
-    { id: 1, titulo: "Tabla Santa Cruz Classic Dot", descripcion: "Ideal para principiantes y expertos.", imgUrl: "assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg" },
-    { id: 2, titulo: "Zapatillas DC Shoes", descripcion: "Comodidad y estilo en cada truco.", imgUrl: "assets/img/adys100634_dcshoes,p_210_frt4.jpg" },
-    { id: 3, titulo: "Casco Pro", descripcion: "Protección segura y ligera.", imgUrl: "assets/img/protecciones.jpg" }
-  ];
+  listaDeProductos: Producto[] = [];
 
   @ViewChild('productGrid', { read: ElementRef }) productGrid!: ElementRef;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private modalCtrl: ModalController,
-    private animationCtrl: AnimationController
+    private animationCtrl: AnimationController,
+    private taskService: TaskService // <-- Inyección del servicio
   ) {}
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') || 'inicio';
 
     if (this.folder === 'productos') {
-      // Simula carga de productos
+      // Simulamos carga de productos
       setTimeout(() => {
+        this.listaDeProductos = this.taskService.getProductos(); // obtenemos productos desde TaskService
         this.cargandoProductos = false;
         this.skeletons = Array(this.listaDeProductos.length).fill(0);
 
+        // Reproducimos animación de los items
         setTimeout(() => this.reproducirAnimacionProductos(), 50);
       }, 2000);
     }
   }
 
+  /**
+   * Abre un modal para agregar un nuevo producto
+   */
   async abrirModalAgregar() {
-    // Aseguramos que el modal se abra correctamente
     const modal = await this.modalCtrl.create({
       component: DetalleModalComponent,
-      componentProps: {}  // si necesitas pasar props
+      componentProps: {}
     });
 
     await modal.present();
@@ -66,19 +67,30 @@ export class FolderPage implements OnInit {
     const { data, role } = await modal.onDidDismiss();
 
     if (role === 'confirm' && data) {
-      const nuevoProducto: Producto = { ...data, id: this.listaDeProductos.length + 1 };
-      this.listaDeProductos.push(nuevoProducto);
+      // Agregamos el nuevo producto usando el servicio
+      this.taskService.agregarProducto(data as Producto);
 
+      // Actualizamos la lista
+      this.listaDeProductos = this.taskService.getProductos();
+
+      // Animamos los nuevos items
       setTimeout(() => this.reproducirAnimacionProductos(), 50);
     }
   }
 
+  /**
+   * Agrega un producto al carrito (solo logueo por ahora)
+   */
   agregarAlCarrito(producto: Producto) {
     console.log('Producto agregado al carrito:', producto);
   }
 
+  /**
+   * Reproduce animación de aparición de productos
+   */
   private reproducirAnimacionProductos() {
     if (!this.productGrid) return;
+
     const items: HTMLElement[] = Array.from(this.productGrid.nativeElement.querySelectorAll('ion-item'));
 
     items.forEach((item, index) => {
@@ -91,5 +103,4 @@ export class FolderPage implements OnInit {
       anim.play();
     });
   }
-
 }

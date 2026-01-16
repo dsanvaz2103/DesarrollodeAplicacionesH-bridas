@@ -3,7 +3,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   IonApp, IonSplitPane, IonMenu, IonContent, IonList,
   IonListHeader, IonNote, IonMenuToggle, IonItem,
-  IonIcon, IonLabel, IonRouterOutlet, IonRouterLink, IonToolbar, IonTitle, IonHeader } from '@ionic/angular/standalone';
+  IonIcon, IonLabel, IonRouterOutlet, IonRouterLink,
+  IonToolbar, IonTitle, IonHeader
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   homeOutline,
@@ -19,7 +21,8 @@ import {
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [IonHeader, IonTitle, IonToolbar, 
+  imports: [
+    IonHeader, IonTitle, IonToolbar,
     RouterLink, RouterLinkActive, IonApp, IonSplitPane, IonMenu, IonContent,
     IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel,
     IonRouterLink, IonRouterOutlet
@@ -27,11 +30,11 @@ import {
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inicio', url: '/folder/inicio', icon: 'home-outline' },
-    { title: 'Productos', url: '/folder/productos', icon: 'storefront-outline' },
-    { title: 'Carrito', url: '/folder/carrito', icon: 'cart-outline' },
-    { title: 'Cuenta', url: '/folder/cuenta', icon: 'person-outline' },
-    { title: 'Configuración', url: '/folder/configuracion', icon: 'settings-outline' },
+    { title: 'Inicio', url: '/folder/inicio', icon: homeOutline },
+    { title: 'Productos', url: '/folder/productos', icon: storefrontOutline },
+    { title: 'Carrito', url: '/folder/carrito', icon: cartOutline },
+    { title: 'Cuenta', url: '/folder/cuenta', icon: personOutline },
+    { title: 'Configuración', url: '/folder/configuracion', icon: settingsOutline },
   ];
 
   public labels = ['Ofertas', 'Marcas', 'Accesorios', 'Ropa', 'Tablas', 'Zapatos'];

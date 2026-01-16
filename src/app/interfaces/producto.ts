@@ -4,3 +4,4 @@ export interface Producto {
   descripcion: string;
   imgUrl: string;
 }
+

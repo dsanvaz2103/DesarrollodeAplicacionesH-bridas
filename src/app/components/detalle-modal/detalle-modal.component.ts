@@ -1,34 +1,53 @@
 import { Component } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Producto } from '../../interfaces/producto';
+import { FormsModule } from '@angular/forms';
+import { IonicModule, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-detalle-modal',
-  templateUrl: './detalle-modal.component.html',
-  styleUrls: ['./detalle-modal.component.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule, CommonModule]
+  imports: [CommonModule, FormsModule, IonicModule],
+  template: `
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Nuevo producto</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="cerrar()">Cancelar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-input placeholder="Título" [(ngModel)]="titulo"></ion-input>
+      <ion-input placeholder="Descripción" [(ngModel)]="descripcion"></ion-input>
+      <ion-input placeholder="URL Imagen" [(ngModel)]="imgUrl"></ion-input>
+
+      <ion-button expand="block" (click)="guardar()">
+        Guardar
+      </ion-button>
+    </ion-content>
+  `
 })
 export class DetalleModalComponent {
 
-  nuevoProducto: Partial<Producto> = {};
+  titulo = '';
+  descripcion = '';
+  imgUrl = '';
 
   constructor(private modalCtrl: ModalController) {}
 
-  // Cierra el modal sin retornar datos
   cerrar() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  // Envía los datos del nuevo producto al cerrar el modal
-  agregar() {
-    if (this.nuevoProducto.titulo && this.nuevoProducto.descripcion && this.nuevoProducto.imgUrl) {
-      this.modalCtrl.dismiss(this.nuevoProducto, 'confirm');
-    } else {
-      // Puedes agregar un alert si quieres avisar que faltan campos
-      console.warn('Faltan campos por completar');
-    }
+  guardar() {
+    this.modalCtrl.dismiss(
+      {
+        titulo: this.titulo,
+        descripcion: this.descripcion,
+        imgUrl: this.imgUrl
+      },
+      'confirm'
+    );
   }
 }
