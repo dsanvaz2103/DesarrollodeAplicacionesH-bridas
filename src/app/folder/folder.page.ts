@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, ModalController, AnimationController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { Producto } from '../interfaces/producto';
 import { DetalleModalComponent } from '../components/detalle-modal/detalle-modal.component';
-import { TaskService } from '../services/task.service'; // <-- Servicio actualizado
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-folder',
@@ -34,28 +34,24 @@ export class FolderPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalCtrl: ModalController,
     private animationCtrl: AnimationController,
-    private taskService: TaskService // <-- Inyección del servicio
+    private productService: TaskService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') || 'inicio';
 
     if (this.folder === 'productos') {
-      // Simulamos carga de productos
       setTimeout(() => {
-        this.listaDeProductos = this.taskService.getProductos(); // obtenemos productos desde TaskService
+        this.listaDeProductos = this.productService.getProductos();
         this.cargandoProductos = false;
         this.skeletons = Array(this.listaDeProductos.length).fill(0);
 
-        // Reproducimos animación de los items
         setTimeout(() => this.reproducirAnimacionProductos(), 50);
       }, 2000);
     }
   }
 
-  /**
-   * Abre un modal para agregar un nuevo producto
-   */
   async abrirModalAgregar() {
     const modal = await this.modalCtrl.create({
       component: DetalleModalComponent,
@@ -67,30 +63,24 @@ export class FolderPage implements OnInit {
     const { data, role } = await modal.onDidDismiss();
 
     if (role === 'confirm' && data) {
-      // Agregamos el nuevo producto usando el servicio
-      this.taskService.agregarProducto(data as Producto);
-
-      // Actualizamos la lista
-      this.listaDeProductos = this.taskService.getProductos();
-
-      // Animamos los nuevos items
+      this.productService.agregarProducto(data);
+      this.listaDeProductos = this.productService.getProductos();
       setTimeout(() => this.reproducirAnimacionProductos(), 50);
     }
   }
 
-  /**
-   * Agrega un producto al carrito (solo logueo por ahora)
-   */
   agregarAlCarrito(producto: Producto) {
     console.log('Producto agregado al carrito:', producto);
   }
 
-  /**
-   * Reproduce animación de aparición de productos
-   */
+  // Navegación programática
+  irAProductos() {
+    console.log('Ejecutando lógica previa...');
+    this.router.navigate(['/folder', 'productos']);
+  }
+
   private reproducirAnimacionProductos() {
     if (!this.productGrid) return;
-
     const items: HTMLElement[] = Array.from(this.productGrid.nativeElement.querySelectorAll('ion-item'));
 
     items.forEach((item, index) => {
@@ -103,4 +93,5 @@ export class FolderPage implements OnInit {
       anim.play();
     });
   }
+
 }

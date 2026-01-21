@@ -4,7 +4,7 @@ import { Producto } from '../interfaces/producto';
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {   // El nombre de la clase se mantiene TaskService
+export class TaskService {
   private listaDeProductos: Producto[] = [
     { id: 1, titulo: "Tabla Santa Cruz Classic Dot", descripcion: "Ideal para principiantes y expertos.", imgUrl: "assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg" },
     { id: 2, titulo: "Zapatillas DC Shoes", descripcion: "Comodidad y estilo en cada truco.", imgUrl: "assets/img/adys100634_dcshoes,p_210_frt4.jpg" },
@@ -13,18 +13,16 @@ export class TaskService {   // El nombre de la clase se mantiene TaskService
 
   constructor() { }
 
-  /**
-   * Devuelve la lista de productos
-   */
   getProductos(): Producto[] {
-    return [...this.listaDeProductos]; // devolvemos copia del array
+    return [...this.listaDeProductos];
   }
 
-  /**
-   * Agrega un nuevo producto a la lista
-   */
   agregarProducto(producto: Producto) {
-    const nuevoProducto: Producto = { ...producto, id: Date.now() }; // id único
+    const nuevoProducto: Producto = { ...producto, id: Date.now() };
     this.listaDeProductos.push(nuevoProducto);
+  }
+
+  getProductoPorId(id: number): Producto | undefined {
+    return this.listaDeProductos.find(p => p.id === id);
   }
 }
