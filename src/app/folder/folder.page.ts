@@ -18,7 +18,6 @@ import { TaskService } from '../services/task.service';
     FormsModule,
     IonicModule,
     RouterModule,
-    DetalleModalComponent
   ],
 })
 export class FolderPage implements OnInit {
@@ -34,8 +33,8 @@ export class FolderPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalCtrl: ModalController,
     private animationCtrl: AnimationController,
-    private productService: TaskService,
-    private router: Router
+    private productService: TaskService,  // <-- Servicio inyectado
+    private router: Router                 // <-- Para navegación programática
   ) {}
 
   ngOnInit() {
@@ -73,10 +72,8 @@ export class FolderPage implements OnInit {
     console.log('Producto agregado al carrito:', producto);
   }
 
-  // Navegación programática
-  irAProductos() {
-    console.log('Ejecutando lógica previa...');
-    this.router.navigate(['/folder', 'productos']);
+  verDetalle(producto: Producto) {
+    this.router.navigate(['/detalle-producto', producto.id]);
   }
 
   private reproducirAnimacionProductos() {
@@ -93,5 +90,4 @@ export class FolderPage implements OnInit {
       anim.play();
     });
   }
-
 }

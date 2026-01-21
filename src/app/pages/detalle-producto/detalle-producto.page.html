@@ -1,0 +1,26 @@
+<!-- src/app/pages/detalle-producto/detalle-producto.page.html -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/folder/productos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle de Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="producto; else noEncontrado">
+    <h1>{{ producto.titulo }}</h1>
+    <img [src]="producto.imgUrl" alt="{{ producto.titulo }}" style="width: 100%; max-width: 400px; margin-bottom: 1rem;">
+    <p>{{ producto.descripcion }}</p>
+    <p><small>ID: {{ producto.id }}</small></p>
+  </div>
+
+  <ng-template #noEncontrado>
+    <div class="ion-text-center">
+      <p>Producto no encontrado.</p>
+      <ion-button routerLink="/folder/productos">Volver al listado</ion-button>
+    </div>
+  </ng-template>
+</ion-content>
