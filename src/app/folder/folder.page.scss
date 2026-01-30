@@ -1,10 +1,40 @@
+/* ============================= */
+/* GRID COMPACTA SIN SALTOS */
+/* ============================= */
+
+ion-grid {
+  --ion-grid-padding: 0;
+}
+
+ion-col {
+  padding: 6px !important;
+}
+
+/* 🔑 CLAVE: evita el salto gigante */
+.products-row {
+  align-items: stretch;
+}
+
+.products-row ion-col {
+  display: flex;
+}
+
+.products-row ion-item {
+  width: 100%;
+}
+
+/* ============================= */
+/* CARD PRODUCTO */
+/* ============================= */
+
 ion-item.card-sombreada {
   transition: transform 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  height: 320px;
+
+  height: 280px;
+  margin: 0;
   text-align: center;
 }
 
@@ -12,36 +42,59 @@ ion-item.card-sombreada:hover {
   transform: scale(1.02);
 }
 
+/* ============================= */
+/* IMAGEN */
+/* ============================= */
+
 .product-thumb {
   width: 100%;
-  height: 180px;
+  height: 150px;
   overflow: hidden;
   border-radius: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
-.product-thumb ion-img {
+.product-thumb ion-img,
+.product-thumb ion-skeleton-text {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.skeleton-card {
-  transition: transform 0.3s;
-  height: 320px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+/* ============================= */
+/* TEXTO */
+/* ============================= */
+
+ion-label h2 {
+  font-size: 1rem;
+  margin: 4px 0;
 }
 
-/* Animación fade-in */
+ion-label p {
+  font-size: 0.85rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* ============================= */
+/* SKELETON */
+/* ============================= */
+
+.skeleton-card {
+  height: 280px;
+}
+
+/* ============================= */
+/* FADE IN */
+/* ============================= */
+
 .fade-in {
   opacity: 0;
-  animation: fadeIn 0.5s forwards;
-  animation-delay: 0.2s;
+  animation: fadeIn 0.4s forwards;
 }
 
 @keyframes fadeIn {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }

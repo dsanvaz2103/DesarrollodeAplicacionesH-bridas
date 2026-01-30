@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+
   <ion-header collapse="condense">
     <ion-toolbar color="primary">
       <ion-title size="large">{{ folder | titlecase }}</ion-title>
@@ -16,20 +17,31 @@
 
   <ng-container [ngSwitch]="folder">
 
-    <!-- INICIO -->
+    <!-- ================= INICIO ================= -->
     <ng-container *ngSwitchCase="'inicio'">
       <ion-grid>
-        <ion-row class="ion-align-items-center">
+        <ion-row>
           <ion-col size="12">
-            <ion-img src="assets/img/Cabecera.jpg" alt="Skateboard"
-              style="border-radius: 10px; width: 100%; height: auto;">
+            <ion-img
+              src="assets/img/Cabecera.jpg"
+              alt="Skateboard"
+              style="border-radius:10px">
             </ion-img>
           </ion-col>
+
           <ion-col size="12" class="ion-text-center ion-padding">
-            <h2 style="color: var(--ion-color-primary)">Bienvenido a Urban Skateshop 🛹</h2>
-            <p>Somos una tienda dedicada al mundo del skateboarding, ofreciendo tablas, ropa y accesorios de las mejores
-              marcas del mercado.</p>
-            <ion-button color="primary" expand="block" [routerLink]="['/folder/productos']">
+            <h2 style="color: var(--ion-color-primary)">
+              Bienvenido a Urban Skateshop 🛹
+            </h2>
+            <p>
+              Somos una tienda dedicada al mundo del skateboarding,
+              ofreciendo tablas, ropa y accesorios.
+            </p>
+
+            <ion-button
+              expand="block"
+              color="primary"
+              [routerLink]="['/folder/productos']">
               Ver Productos
             </ion-button>
           </ion-col>
@@ -37,121 +49,88 @@
       </ion-grid>
     </ng-container>
 
-    <!-- PRODUCTOS -->
+    <!-- ================= PRODUCTOS ================= -->
     <ng-container *ngSwitchCase="'productos'">
+
       <ion-grid>
-        <ion-row class="ion-text-center ion-margin-top" #productGrid>
+        <!-- 🔑 CLASE PERSONALIZADA, SIN align-items-center -->
+        <ion-row class="products-row" #productGrid>
+
           <ion-col size="12">
             <h2 style="color: var(--ion-color-primary)">Productos</h2>
-            <p>Explora nuestra colección de tablas, ropa y accesorios para todos los niveles.</p>
+            <p>Explora nuestra colección</p>
           </ion-col>
 
-          <!-- Skeletons -->
+          <!-- Skeleton -->
           <ng-container *ngIf="cargandoProductos">
-            <ion-col size="12" size-md="4" *ngFor="let s of skeletons">
-              <ion-item lines="none" class="card-sombreada trend-card skeleton-card">
-                <ion-thumbnail class="product-thumb">
-                  <ion-skeleton-text animated
-                    style="width: 100%; height: 120px; border-radius: 8px;"></ion-skeleton-text>
-                </ion-thumbnail>
-                <div class="ion-text-center" style="width: 100%;">
-                  <h3><ion-skeleton-text animated style="width: 70%;"></ion-skeleton-text></h3>
-                  <p><ion-skeleton-text animated style="width: 90%;"></ion-skeleton-text></p>
+            <ion-col size="12" size-md="6" size-lg="4" *ngFor="let s of skeletons">
+              <ion-item lines="none" class="card-sombreada skeleton-card">
+                <div class="product-thumb">
+                  <ion-skeleton-text animated></ion-skeleton-text>
                 </div>
+                <ion-label>
+                  <h3>
+                    <ion-skeleton-text animated style="width:70%"></ion-skeleton-text>
+                  </h3>
+                  <p>
+                    <ion-skeleton-text animated style="width:90%"></ion-skeleton-text>
+                  </p>
+                </ion-label>
               </ion-item>
             </ion-col>
           </ng-container>
 
           <!-- Productos reales -->
           <ng-container *ngIf="!cargandoProductos">
-            <ion-col *ngFor="let producto of listaDeProductos" size="12" size-md="4">
-              <ion-item class="card-sombreada trend-card" lines="none">
-                <ion-thumbnail class="product-thumb">
-                  <ion-img [src]="producto.imgUrl" alt="{{ producto.titulo }}"></ion-img>
-                </ion-thumbnail>
-                <div class="ion-text-center">
-                  <strong>{{ producto.titulo }}</strong><br>
-                  {{ producto.descripcion }}
+            <ion-col
+              *ngFor="let producto of listaDeProductos"
+              size="12"
+              size-md="6"
+              size-lg="4">
+
+              <ion-item
+                lines="none"
+                class="card-sombreada"
+                [routerLink]="['/detalle-producto', producto.id]"
+                style="cursor:pointer">
+
+                <div class="product-thumb">
+                  <ion-img
+                    [src]="producto.imgUrl"
+                    [alt]="producto.titulo">
+                  </ion-img>
                 </div>
-                <ion-button color="primary" expand="block" (click)="agregarAlCarrito(producto)">
-                  Comprar
-                </ion-button>
+
+                <ion-label>
+                  <h2>{{ producto.titulo }}</h2>
+                  <p>{{ producto.descripcion }}</p>
+                </ion-label>
+
               </ion-item>
             </ion-col>
           </ng-container>
 
-          <!-- Botón modal -->
           <ion-col size="12" class="ion-margin-top">
-            <ion-button color="primary" expand="block" (click)="abrirModalAgregar()">
+            <ion-button expand="block" (click)="abrirModalAgregar()">
               + Añadir Producto
             </ion-button>
           </ion-col>
+
         </ion-row>
       </ion-grid>
+
     </ng-container>
 
-    <!-- Carrito -->
-    <ng-container *ngSwitchCase="'carrito'">
-      <ion-grid>
-        <ion-row class="ion-text-center">
-          <ion-col>
-            <h2 style="color: var(--ion-color-primary)">Tu carrito está vacío 🛒</h2>
-            <p>Agrega productos para comenzar tu compra.</p>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ng-container>
-
-    <!-- Cuenta -->
-    <ng-container *ngSwitchCase="'cuenta'">
-      <ion-grid>
-        <ion-row class="ion-text-center">
-          <ion-col>
-            <h2 style="color: var(--ion-color-primary)">Mi Cuenta 👤</h2>
-            <p>Gestiona tu perfil, dirección y métodos de pago.</p>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ng-container>
-
-    <!-- Configuración -->
-    <ng-container *ngSwitchCase="'configuracion'">
-      <ion-grid>
-        <ion-row class="ion-text-center">
-          <ion-col>
-            <h2 style="color: var(--ion-color-primary)">Configuración ⚙️</h2>
-            <p>Personaliza tu experiencia en Urban Skateshop.</p>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ng-container>
-
-    <!-- Default -->
+    <!-- ================= OTROS ================= -->
     <ng-container *ngSwitchDefault>
       <ion-grid>
-        <ion-row class="ion-text-center">
-          <ion-col>
-            <h2 style="color: var(--ion-color-primary)">Página no encontrada 😕</h2>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <h2>Página no encontrada 😕</h2>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ng-container>
-
-    <ion-grid #productGrid>
-      <ion-row>
-        <ion-col *ngFor="let producto of listaDeProductos" size="12" size-md="6" size-lg="4">
-          <ion-item [routerLink]="['/detalle-producto', producto.id]" style="cursor: pointer">
-            <ion-label>
-              <h2>{{ producto.titulo }}</h2>
-              <p>{{ producto.descripcion }}</p>
-            </ion-label>
-            <ion-thumbnail slot="start">
-              <img [src]="producto.imgUrl" alt="{{ producto.titulo }}">
-            </ion-thumbnail>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
 
   </ng-container>
 </ion-content>
