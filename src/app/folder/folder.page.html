@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-
+  
   <ion-header collapse="condense">
     <ion-toolbar color="primary">
       <ion-title size="large">{{ folder | titlecase }}</ion-title>
@@ -17,119 +17,97 @@
 
   <ng-container [ngSwitch]="folder">
 
-    <!-- ================= INICIO ================= -->
     <ng-container *ngSwitchCase="'inicio'">
-      <ion-grid>
-        <ion-row>
-          <ion-col size="12">
-            <ion-img
-              src="assets/img/Cabecera.jpg"
-              alt="Skateboard"
-              style="border-radius:10px">
-            </ion-img>
-          </ion-col>
-
-          <ion-col size="12" class="ion-text-center ion-padding">
-            <h2 style="color: var(--ion-color-primary)">
-              Bienvenido a Urban Skateshop 🛹
-            </h2>
-            <p>
-              Somos una tienda dedicada al mundo del skateboarding,
-              ofreciendo tablas, ropa y accesorios.
-            </p>
-
-            <ion-button
-              expand="block"
-              color="primary"
-              [routerLink]="['/folder/productos']">
-              Ver Productos
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <div class="ion-text-center ion-padding">
+        <ion-img src="assets/img/Cabecera.jpg" style="border-radius: 15px; overflow: hidden;"></ion-img>
+        
+        <h1 style="color: var(--ion-color-primary)">¡Hola, {{ username || 'Skater' }}! 🛹</h1>
+        <p>Bienvenido a tu Urban Skateshop. Aquí encontrarás todo lo necesario para patinar.</p>
+        
+        <ion-button expand="block" shape="round" routerLink="/folder/productos">
+          Explorar Tienda
+        </ion-button>
+      </div>
     </ng-container>
 
-    <!-- ================= PRODUCTOS ================= -->
     <ng-container *ngSwitchCase="'productos'">
+      <ion-list-header>
+        <ion-label>Nuestras Tablas y Accesorios</ion-label>
+      </ion-list-header>
 
-      <ion-grid>
-        <!-- 🔑 CLASE PERSONALIZADA, SIN align-items-center -->
-        <ion-row class="products-row" #productGrid>
+      <div *ngIf="cargandoProductos">
+        <ion-item *ngFor="let s of skeletons">
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-thumbnail>
+          <ion-label>
+            <h3><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></h3>
+            <p><ion-skeleton-text animated style="width: 80%"></ion-skeleton-text></p>
+          </ion-label>
+        </ion-item>
+      </div>
 
-          <ion-col size="12">
-            <h2 style="color: var(--ion-color-primary)">Productos</h2>
-            <p>Explora nuestra colección</p>
-          </ion-col>
+      <div *ngIf="!cargandoProductos" #productGrid>
+        <ion-item *ngFor="let producto of listaDeProductos" lines="inset" class="ion-margin-vertical">
+          <ion-thumbnail slot="start">
+            <img [src]="producto.imgUrl" />
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ producto.titulo }}</h2>
+            <p>{{ producto.descripcion }}</p>
+          </ion-label>
+          <ion-button fill="clear" (click)="agregarAlCarrito(producto)">
+            <ion-icon name="cart-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </div>
 
-          <!-- Skeleton -->
-          <ng-container *ngIf="cargandoProductos">
-            <ion-col size="12" size-md="6" size-lg="4" *ngFor="let s of skeletons">
-              <ion-item lines="none" class="card-sombreada skeleton-card">
-                <div class="product-thumb">
-                  <ion-skeleton-text animated></ion-skeleton-text>
-                </div>
-                <ion-label>
-                  <h3>
-                    <ion-skeleton-text animated style="width:70%"></ion-skeleton-text>
-                  </h3>
-                  <p>
-                    <ion-skeleton-text animated style="width:90%"></ion-skeleton-text>
-                  </p>
-                </ion-label>
-              </ion-item>
-            </ion-col>
-          </ng-container>
-
-          <!-- Productos reales -->
-          <ng-container *ngIf="!cargandoProductos">
-            <ion-col
-              *ngFor="let producto of listaDeProductos"
-              size="12"
-              size-md="6"
-              size-lg="4">
-
-              <ion-item
-                lines="none"
-                class="card-sombreada"
-                [routerLink]="['/detalle-producto', producto.id]"
-                style="cursor:pointer">
-
-                <div class="product-thumb">
-                  <ion-img
-                    [src]="producto.imgUrl"
-                    [alt]="producto.titulo">
-                  </ion-img>
-                </div>
-
-                <ion-label>
-                  <h2>{{ producto.titulo }}</h2>
-                  <p>{{ producto.descripcion }}</p>
-                </ion-label>
-
-              </ion-item>
-            </ion-col>
-          </ng-container>
-
-          <ion-col size="12" class="ion-margin-top">
-            <ion-button expand="block" (click)="abrirModalAgregar()">
-              + Añadir Producto
-            </ion-button>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="abrirModalAgregar()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </ng-container>
 
-    <!-- ================= OTROS ================= -->
+    <ng-container *ngSwitchCase="'configuracion'">
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Ajustes de Perfil</ion-label>
+        </ion-list-header>
+
+        <ion-item class="ion-margin-top">
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-label position="stacked">Tu nombre de usuario</ion-label>
+          <ion-input 
+            [value]="username" 
+            (ionInput)="saveUsername($any($event.target).value || '')" 
+            placeholder="Escribe tu nombre">
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-icon name="moon-outline" slot="start"></ion-icon>
+          <ion-label>Modo Nocturno</ion-label>
+          <ion-toggle 
+            [checked]="isDarkMode" 
+            (ionChange)="toggleDarkMode()">
+          </ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <div class="ion-padding ion-text-center">
+        <ion-note>
+          Estos cambios se almacenan localmente y persistirán incluso si cierras el navegador.
+        </ion-note>
+      </div>
+    </ng-container>
+
     <ng-container *ngSwitchDefault>
-      <ion-grid>
-        <ion-row>
-          <ion-col class="ion-text-center">
-            <h2>Página no encontrada 😕</h2>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <div class="ion-text-center ion-padding">
+        <ion-icon name="construct-outline" style="font-size: 48px;"></ion-icon>
+        <h3>Sección en desarrollo</h3>
+        <p>Pronto tendremos novedades en la sección de {{ folder }}.</p>
+      </div>
     </ng-container>
 
   </ng-container>
