@@ -1,24 +1,67 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <ion-title>Agregar Producto</ion-title>
+    <ion-title>
+      {{ esNuevo ? 'Nuevo Producto' : (cargando ? 'Cargando...' : producto.titulo) }}
+    </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cerrar()">Cerrar</ion-button>
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-list>
-    <ion-item>
-      <ion-input label="Título" label-placement="floating" [(ngModel)]="nuevoProducto.titulo" placeholder="Nombre del producto"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input label="Descripción" label-placement="floating" [(ngModel)]="nuevoProducto.descripcion" placeholder="Descripción"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input label="Imagen" label-placement="floating" [(ngModel)]="nuevoProducto.imgUrl" placeholder="URL de la imagen"></ion-input>
-    </ion-item>
-  </ion-list>
+<ion-content>
+  <div *ngIf="cargando && !esNuevo" class="ion-padding">
+    <ion-skeleton-text animated style="width: 100%; height: 250px; border-radius: 15px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 60%; height: 25px; margin-top: 20px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 90%; height: 15px; margin-top: 15px;"></ion-skeleton-text>
+  </div>
 
-  <ion-button expand="block" color="primary" (click)="agregar()">Agregar Producto</ion-button>
+  <div *ngIf="!cargando && !esNuevo" class="animate-in">
+    <div class="product-header">
+      <img [src]="producto.imgUrl" alt="producto">
+    </div>
+    <div class="ion-padding">
+      <h1 class="product-name">{{ producto.titulo }}</h1>
+      <p class="product-description">{{ producto.descripcion }}</p>
+      <div class="price-footer">
+        <div class="price-tag">Consultar Stock</div>
+        <ion-button color="dark" shape="round">
+          <ion-icon name="cart-outline" slot="start"></ion-icon> Añadir
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="esNuevo" class="ion-padding animate-in">
+    <div class="form-card">
+      <ion-list lines="full" class="ion-no-padding">
+        <ion-item class="input-item">
+          <ion-label position="stacked">Nombre del Skate</ion-label>
+          <ion-input type="text" [(ngModel)]="producto.titulo" placeholder="Ej: Santa Cruz Classic Dot"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="stacked">Descripción breve</ion-label>
+          <ion-textarea [(ngModel)]="producto.descripcion" placeholder="Explica las características..."></ion-textarea>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="stacked">Link de la foto (URL)</ion-label>
+          <ion-input type="url" [(ngModel)]="producto.imgUrl" placeholder="https://ejemplo.com/foto.jpg"></ion-input>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="image-preview" *ngIf="producto.imgUrl">
+      <p>Vista previa:</p>
+      <img [src]="producto.imgUrl" />
+    </div>
+
+    <ion-button expand="block" color="primary" class="ion-margin-top main-btn" (click)="agregar()">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      Publicar en Tienda
+    </ion-button>
+  </div>
 </ion-content>

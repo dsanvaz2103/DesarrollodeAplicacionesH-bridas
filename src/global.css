@@ -1,77 +1,76 @@
+@charset "UTF-8";
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
 /* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
 /* Optional CSS utils */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-
 /**
  * MODO OSCURO DE IONIC
  * -----------------------------------------------------
  * Cambiamos 'system' por 'class' para que responda a tu botón.
  */
 @import "@ionic/angular/css/palettes/dark.class.css";
-
 /* ============================================================= */
 /* 🌙 FUERZA DE MODO OSCURO MANUAL (Tu botón)                    */
 /* ============================================================= */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Poppins:wght@600;700&display=swap");
 body.dark {
   --ion-background-color: #121212 !important;
   --ion-text-color: #ffffff !important;
-
   /* Fondo de las páginas */
-  ion-content {
-    --background: #121212 !important;
-    --color: #ffffff !important;
-  }
-
+}
+body.dark ion-content {
+  --background: #121212 !important;
+  --color: #ffffff !important;
+}
+body.dark {
   /* Fondo del menú lateral */
-  ion-menu ion-content {
-    --background: #1a1a1a !important;
-  }
-
+}
+body.dark ion-menu ion-content {
+  --background: #1a1a1a !important;
+}
+body.dark {
   /* Barras de herramientas */
-  ion-toolbar {
-    --background: #1f1f1f !important;
-    --color: #ffffff !important;
-  }
-
+}
+body.dark ion-toolbar {
+  --background: #1f1f1f !important;
+  --color: #ffffff !important;
+}
+body.dark {
   /* Items de lista (Nombre y Toggle) */
-  ion-item {
-    --background: #1e1e1e !important;
-    --color: #ffffff !important;
-    --border-color: #333333 !important;
-  }
-
+}
+body.dark ion-item {
+  --background: #1e1e1e !important;
+  --color: #ffffff !important;
+  --border-color: #333333 !important;
+}
+body.dark {
   /* Forzamos colores de texto e iconos */
-  h1, h2, h3, h4, h5, ion-title, ion-label, ion-icon, ion-input {
-    color: #ffffff !important;
-    --color: #ffffff !important;
-  }
+}
+body.dark h1, body.dark h2, body.dark h3, body.dark h4, body.dark h5, body.dark ion-title, body.dark ion-label, body.dark ion-icon, body.dark ion-input {
+  color: #ffffff !important;
+  --color: #ffffff !important;
 }
 
 /* =========================================
    FUENTES Y ESTILOS GLOBALES
    ========================================= */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
-
 html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 ion-title, h1, h2, h3, h4, h5 {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
@@ -91,4 +90,4 @@ body:not(.dark) h2 {
 ion-note {
   font-size: 0.9rem;
   opacity: 0.8;
-}
+}/*# sourceMappingURL=global.css.map */

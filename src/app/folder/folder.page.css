@@ -1,0 +1,142 @@
+/* --- PRODUCTOS --- */
+ion-item.card-sombreada {
+  --background: #ffffff;
+  --color: #000000;
+  margin: 8px 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+:host-context(body.dark) ion-item.card-sombreada {
+  --background: #1e1e1e !important;
+  --color: #ffffff !important;
+}
+
+/* --- INICIO --- */
+.welcome-header {
+  margin: 10px 0 25px;
+}
+.welcome-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.promo-banner {
+  position: relative;
+  height: 180px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #111;
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.promo-banner img {
+  position: absolute;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  opacity: 0.8;
+}
+.promo-banner .promo-content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  width: 65%;
+}
+.promo-banner .promo-content h2 {
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.5rem;
+  margin: 0;
+}
+.promo-banner .promo-content p {
+  color: #eee;
+  font-size: 0.85rem;
+}
+
+.category-card {
+  position: relative;
+  height: 130px;
+  margin: 6px;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #222;
+}
+.category-card img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.category-card .cat-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2));
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 12px;
+}
+.category-card .cat-overlay span {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.news-card {
+  --background: var(--ion-color-step-50);
+  border-radius: 15px;
+}
+
+/* --- OTROS --- */
+.empty-state-container {
+  text-align: center;
+  margin-top: 60px;
+}
+.empty-state-container ion-icon {
+  font-size: 100px;
+  color: var(--ion-color-step-200);
+}
+.empty-state-container h2 {
+  font-weight: 700;
+}
+
+.profile-header {
+  text-align: center;
+}
+.profile-header ion-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 20px auto;
+  border: 3px solid var(--ion-color-primary);
+}
+
+.animate-in {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ion-thumbnail {
+  --size: 70px;
+  --border-radius: 8px;
+}
+ion-thumbnail img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}/*# sourceMappingURL=folder.page.css.map */

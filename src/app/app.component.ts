@@ -12,7 +12,7 @@ import {
   IonMenuToggle, 
   IonItem, 
   IonIcon, 
-  IonRouterOutlet, IonLabel } from '@ionic/angular/standalone';
+  IonRouterOutlet, IonLabel, IonHeader, IonToolbar } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { 
   homeOutline, 
@@ -31,22 +31,21 @@ import { PreferencesService } from './services/preferences.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [IonLabel, 
-    CommonModule, 
-    RouterLink, 
+  imports: [IonLabel,
+    CommonModule,
+    RouterLink,
     RouterLinkActive,
-    IonApp, 
-    IonSplitPane, 
-    IonMenu, 
-    IonContent, 
-    IonList, 
-    IonListHeader, 
-    IonNote, 
-    IonMenuToggle, 
-    IonItem, 
-    IonIcon, 
-    IonRouterOutlet
-  ],
+    IonApp,
+    IonSplitPane,
+    IonMenu,
+    IonContent,
+    IonList,
+    IonListHeader,
+    IonNote,
+    IonMenuToggle,
+    IonItem,
+    IonIcon,
+    IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
   

@@ -1,53 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { Producto } from '../../interfaces/producto';
 
 @Component({
   selector: 'app-detalle-modal',
+  templateUrl: './detalle-modal.component.html',
+  styleUrls: ['./detalle-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
-  template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Nuevo producto</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="cerrar()">Cancelar</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content class="ion-padding">
-      <ion-input placeholder="Título" [(ngModel)]="titulo"></ion-input>
-      <ion-input placeholder="Descripción" [(ngModel)]="descripcion"></ion-input>
-      <ion-input placeholder="URL Imagen" [(ngModel)]="imgUrl"></ion-input>
-
-      <ion-button expand="block" (click)="guardar()">
-        Guardar
-      </ion-button>
-    </ion-content>
-  `
+  imports: [CommonModule, FormsModule, IonicModule]
 })
-export class DetalleModalComponent {
-
-  titulo = '';
-  descripcion = '';
-  imgUrl = '';
+export class DetalleModalComponent implements OnInit {
+  @Input() producto: Producto = { id: 0, titulo: '', descripcion: '', imgUrl: '' };
+  
+  cargando = true;
+  esNuevo = false;
 
   constructor(private modalCtrl: ModalController) {}
+
+  ngOnInit() {
+    // Si entramos sin datos, activamos modo formulario
+    if (!this.producto || !this.producto.titulo) {
+      this.esNuevo = true;
+      this.cargando = false;
+    } else {
+      setTimeout(() => {
+        this.cargando = false;
+      }, 1200);
+    }
+  }
 
   cerrar() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  guardar() {
-    this.modalCtrl.dismiss(
-      {
-        titulo: this.titulo,
-        descripcion: this.descripcion,
-        imgUrl: this.imgUrl
-      },
-      'confirm'
-    );
+  agregar() {
+    this.modalCtrl.dismiss(this.producto, 'confirm');
   }
 }

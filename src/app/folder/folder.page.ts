@@ -29,13 +29,13 @@ export class FolderPage implements OnInit {
 
   // Propiedades para Productos
   cargandoProductos = true;
-  skeletons: number[] = [1, 2, 3];
+  skeletons: number[] = [1, 2, 3, 4, 5, 6];
   listaDeProductos: Producto[] = [];
 
   @ViewChild('productGrid', { read: ElementRef })
   productGrid!: ElementRef;
 
-  // 🔹 Propiedades para Preferencias (Persistencia)
+  // Propiedades para Preferencias
   isDarkMode: boolean = false;
   username: string = '';
 
@@ -48,63 +48,59 @@ export class FolderPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // 1. Leemos preferencias guardadas al iniciar
     this.isDarkMode = await this.preferences.getDarkMode();
     this.username = await this.preferences.getUsername();
 
-    // Aplicamos el estado visual del modo oscuro inmediatamente
     document.body.classList.toggle('dark', this.isDarkMode);
 
-    // 2. Leemos el parámetro de la ruta (/folder/:id)
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') || 'inicio';
 
-    // 3. Lógica para cargar productos si la ruta es 'productos'
     if (this.folder === 'productos') {
       this.cargarProductosSimulados();
     }
   }
 
-  // --- MÉTODOS DE PREFERENCIAS (Solución a errores HTML) ---
-
   async toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
-    // Guardamos en el storage (Disco)
     await this.preferences.setDarkMode(this.isDarkMode);
-    // Cambiamos la interfaz (Visual)
     document.body.classList.toggle('dark', this.isDarkMode);
   }
 
-  async saveUsername(name: any) {
-    // Convertimos a string y evitamos nulos/undefined
+  async saveUsername(event: any) {
+    const name = event.target.value;
     const finalName = name?.toString() || '';
     this.username = finalName;
-    // Guardamos en el storage para que no haya "amnesia"
     await this.preferences.setUsername(finalName);
   }
-
-  // --- MÉTODOS DE PRODUCTOS Y MODALES ---
 
   private cargarProductosSimulados() {
     this.cargandoProductos = true;
     setTimeout(() => {
       this.listaDeProductos = this.productService.getProductos();
       this.cargandoProductos = false;
-      this.skeletons = Array(this.listaDeProductos.length).fill(0);
+      setTimeout(() => this.reproducirAnimacionProductos(), 100);
+    }, 1500);
+  }
 
-      // Animación de entrada
-      setTimeout(() => this.reproducirAnimacionProductos(), 50);
-    }, 2000);
+  async verDetalleProducto(producto: Producto) {
+    const modal = await this.modalCtrl.create({
+      component: DetalleModalComponent,
+      componentProps: { producto: producto }
+    });
+    await modal.present();
   }
 
   async abrirModalAgregar() {
     const modal = await this.modalCtrl.create({
-      component: DetalleModalComponent
+      component: DetalleModalComponent,
+      componentProps: {
+        producto: { id: 0, titulo: '', descripcion: '', imgUrl: '' }
+      }
     });
 
     await modal.present();
 
     const { data, role } = await modal.onDidDismiss();
-
     if (role === 'confirm' && data) {
       this.productService.agregarProducto(data);
       this.listaDeProductos = this.productService.getProductos();
@@ -114,23 +110,22 @@ export class FolderPage implements OnInit {
 
   private reproducirAnimacionProductos() {
     if (!this.productGrid) return;
+    const items = this.productGrid.nativeElement.querySelectorAll('.card-sombreada');
+    if (items.length === 0) return;
 
-    const items: HTMLElement[] = Array.from(
-      this.productGrid.nativeElement.querySelectorAll('ion-item')
-    );
-
-    items.forEach((item, index) => {
+    const itemsArray = Array.from(items) as HTMLElement[];
+    itemsArray.forEach((item, index) => {
       this.animationCtrl.create()
         .addElement(item)
-        .duration(400)
+        .duration(500)
         .fromTo('opacity', '0', '1')
-        .fromTo('transform', 'translateY(30px)', 'translateY(0px)')
-        .delay(index * 100)
+        .fromTo('transform', 'translateY(20px)', 'translateY(0px)')
+        .delay(index * 80)
         .play();
     });
   }
 
   agregarAlCarrito(producto: Producto) {
-    console.log('Producto agregado al carrito:', producto);
+    console.log('Añadido al carrito:', producto.titulo);
   }
 }
