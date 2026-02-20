@@ -12,7 +12,7 @@ import {
   IonMenuToggle, 
   IonItem, 
   IonIcon, 
-  IonRouterOutlet, IonLabel, IonHeader, IonToolbar } from '@ionic/angular/standalone';
+  IonRouterOutlet, IonLabel } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { 
   homeOutline, 
@@ -23,15 +23,16 @@ import {
   moonOutline
 } from 'ionicons/icons';
 
-// Importamos el servicio para evitar la "amnesia" de la app
-import { PreferencesService } from './services/preferences.service';
+// 1. Corregimos la ruta de importación y el nombre de la clase
+import { SettingsService } from './services/settings.service'; 
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
   standalone: true,
-  imports: [IonLabel,
+  imports: [
+    IonLabel,
     CommonModule,
     RouterLink,
     RouterLinkActive,
@@ -45,11 +46,11 @@ import { PreferencesService } from './services/preferences.service';
     IonMenuToggle,
     IonItem,
     IonIcon,
-    IonRouterOutlet],
+    IonRouterOutlet
+  ],
 })
 export class AppComponent implements OnInit {
   
-  // Definición de las rutas del menú lateral
   public appPages = [
     { title: 'Inicio', url: '/folder/inicio', icon: 'home-outline' },
     { title: 'Productos', url: '/folder/productos', icon: 'storefront-outline' },
@@ -60,8 +61,8 @@ export class AppComponent implements OnInit {
 
   public username: string = '';
 
-  constructor(private preferences: PreferencesService) {
-    // Registramos los iconos que vamos a usar en el menú
+  // 2. Cambiamos PreferencesService por SettingsService
+  constructor(private settings: SettingsService) {
     addIcons({ 
       homeOutline, 
       storefrontOutline, 
@@ -73,12 +74,11 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    // 1. Al arrancar, recuperamos las preferencias del "disco duro" (Storage)
-    const isDark = await this.preferences.getDarkMode();
-    this.username = await this.preferences.getUsername();
+    // 3. Usamos el método genérico get() para recuperar el estado inicial
+    const isDark = await this.settings.get('darkMode') || false;
+    this.username = await this.settings.get('username') || 'Skater';
 
-    // 2. Aplicamos el modo oscuro visualmente si estaba activado
-    // Esto evita que la app "parpadee" en blanco al recargar
+    // 4. Aplicamos el modo oscuro globalmente al arrancar la app
     document.body.classList.toggle('dark', isDark);
   }
 }

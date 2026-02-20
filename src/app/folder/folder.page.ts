@@ -9,7 +9,8 @@ import { RouterModule } from '@angular/router';
 import { Producto } from '../interfaces/producto';
 import { DetalleModalComponent } from '../components/detalle-modal/detalle-modal.component';
 import { TaskService } from '../services/task.service';
-import { PreferencesService } from '../services/preferences.service';
+// 1. Importación corregida para el punto 4.11
+import { SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-folder',
@@ -44,13 +45,17 @@ export class FolderPage implements OnInit {
     private modalCtrl: ModalController,
     private animationCtrl: AnimationController,
     private productService: TaskService,
-    private preferences: PreferencesService 
+    // 2. Inyectamos SettingsService en lugar de PreferencesService
+    private settings: SettingsService 
   ) {}
 
   async ngOnInit() {
-    this.isDarkMode = await this.preferences.getDarkMode();
-    this.username = await this.preferences.getUsername();
+    // 3. Recuperamos datos usando el método genérico get()
+    // Usamos '||' para establecer valores por defecto si la base de datos está vacía
+    this.isDarkMode = await this.settings.get('darkMode') || false;
+    this.username = await this.settings.get('username') || '';
 
+    // Aplicamos el tema visual según la preferencia guardada
     document.body.classList.toggle('dark', this.isDarkMode);
 
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') || 'inicio';
@@ -62,7 +67,8 @@ export class FolderPage implements OnInit {
 
   async toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
-    await this.preferences.setDarkMode(this.isDarkMode);
+    // 4. Guardamos la preferencia usando el método genérico set()
+    await this.settings.set('darkMode', this.isDarkMode);
     document.body.classList.toggle('dark', this.isDarkMode);
   }
 
@@ -70,7 +76,8 @@ export class FolderPage implements OnInit {
     const name = event.target.value;
     const finalName = name?.toString() || '';
     this.username = finalName;
-    await this.preferences.setUsername(finalName);
+    // 5. Persistencia del nombre de usuario
+    await this.settings.set('username', finalName);
   }
 
   private cargarProductosSimulados() {
