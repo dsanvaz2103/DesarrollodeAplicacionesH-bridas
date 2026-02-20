@@ -9,7 +9,6 @@ import { RouterModule } from '@angular/router';
 import { Producto } from '../interfaces/producto';
 import { DetalleModalComponent } from '../components/detalle-modal/detalle-modal.component';
 import { TaskService } from '../services/task.service';
-// 1. Importación corregida para el punto 4.11
 import { SettingsService } from '../services/settings.service';
 
 @Component({
@@ -36,8 +35,7 @@ export class FolderPage implements OnInit {
   @ViewChild('productGrid', { read: ElementRef })
   productGrid!: ElementRef;
 
-  // Propiedades para Preferencias
-  isDarkMode: boolean = false;
+  // Solo mantenemos el username para el saludo personalizado
   username: string = '';
 
   constructor(
@@ -45,18 +43,16 @@ export class FolderPage implements OnInit {
     private modalCtrl: ModalController,
     private animationCtrl: AnimationController,
     private productService: TaskService,
-    // 2. Inyectamos SettingsService en lugar de PreferencesService
     private settings: SettingsService 
   ) {}
 
   async ngOnInit() {
-    // 3. Recuperamos datos usando el método genérico get()
-    // Usamos '||' para establecer valores por defecto si la base de datos está vacía
-    this.isDarkMode = await this.settings.get('darkMode') || false;
+    // 1. Cargamos el nombre (mantenemos tu personalización)
     this.username = await this.settings.get('username') || '';
 
-    // Aplicamos el tema visual según la preferencia guardada
-    document.body.classList.toggle('dark', this.isDarkMode);
+    // ¡IMPORTANTE! Hemos borrado el toggle del body que había aquí.
+    // Ahora esta página NO decide si la app es oscura o clara, 
+    // respeta lo que diga el AppComponent.
 
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') || 'inicio';
 
@@ -65,18 +61,12 @@ export class FolderPage implements OnInit {
     }
   }
 
-  async toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    // 4. Guardamos la preferencia usando el método genérico set()
-    await this.settings.set('darkMode', this.isDarkMode);
-    document.body.classList.toggle('dark', this.isDarkMode);
-  }
+  // Eliminado toggleDarkMode() - Ahora se hace en la página de Ajustes
 
   async saveUsername(event: any) {
     const name = event.target.value;
     const finalName = name?.toString() || '';
     this.username = finalName;
-    // 5. Persistencia del nombre de usuario
     await this.settings.set('username', finalName);
   }
 
@@ -104,9 +94,7 @@ export class FolderPage implements OnInit {
         producto: { id: 0, titulo: '', descripcion: '', imgUrl: '' }
       }
     });
-
     await modal.present();
-
     const { data, role } = await modal.onDidDismiss();
     if (role === 'confirm' && data) {
       this.productService.agregarProducto(data);

@@ -3,7 +3,14 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+
     <ion-title>{{ folder | titlecase }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button routerLink="/ajustes">
+        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -125,24 +132,6 @@
       <ion-list lines="inset" class="ion-margin-top">
         <ion-item button><ion-icon name="receipt-outline" slot="start"></ion-icon><ion-label>Mis Pedidos</ion-label></ion-item>
         <ion-item button color="danger"><ion-icon name="log-out-outline" slot="start"></ion-icon><ion-label>Cerrar Sesión</ion-label></ion-item>
-      </ion-list>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="folder === 'configuracion' || folder === 'Configuración'">
-    <div class="ion-padding animate-in">
-      <h2 class="section-title">Ajustes</h2>
-      <ion-list lines="full" class="config-list">
-        <ion-item>
-          <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-label position="stacked">Nombre de usuario</ion-label>
-          <ion-input type="text" [value]="username" (ionBlur)="saveUsername($event)"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="moon-outline" slot="start"></ion-icon>
-          <ion-label>Modo Nocturno</ion-label>
-          <ion-toggle slot="end" [checked]="isDarkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
-        </ion-item>
       </ion-list>
     </div>
   </ng-container>

@@ -23,5 +23,9 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'folder/inicio',
     pathMatch: 'full'
+  },
+  {
+    path: 'ajustes',
+    loadComponent: () => import('./pages/ajustes/ajustes.page').then( m => m.AjustesPage)
   }
 ];

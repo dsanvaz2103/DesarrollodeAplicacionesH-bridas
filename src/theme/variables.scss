@@ -1,22 +1,30 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+/* 1. Definimos tus colores en un Mixin para no repetirlos */
+@mixin mi-tema-oscuro {
+  /* Tus colores personalizados de Skater */
+  --ion-color-primary: #00bcd4;
+  --ion-color-primary-rgb: 0, 188, 212;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #00a0b8;
+  --ion-color-primary-tint: #1ecbe0;
 
-/* En src/theme/variables.scss, dentro de :root */
-:root {
-  --ion-color-primary: #06d8f4;
-  --ion-color-primary-rgb: 6, 216, 244;
-  --ion-color-primary-contrast: #000000;
-  --ion-color-primary-contrast-rgb: 0, 0, 0;
-  --ion-color-primary-shade: #05b0c8;
-  --ion-color-primary-tint: #3ee4fb;
+  --ion-color-secondary: #50c8ff;
+  --ion-color-secondary-rgb: 80, 200, 255;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #46b0e0;
+  --ion-color-secondary-tint: #62ceff;
 
-  --ion-background-color: #f4f5f8;
-  --ion-text-color: #222428;
+  /* Fondos y texto */
+  --ion-background-color: #121212;
+  --ion-background-color-rgb: 18, 18, 18;
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+
+  --ion-card-background: #1e1e1e;
+  --ion-item-background: #1e1e1e; /* Para que las listas también cambien */
 }
 
-/* ======================================================
- *  🎨 Tema Claro (por defecto)
- * ====================================================== */
 :root {
   --ion-color-primary: #06d8f4;
   --ion-color-primary-rgb: 6, 216, 244;
@@ -27,57 +35,18 @@
 
   --ion-background-color: #f4f5f8;
   --ion-text-color: #222428;
-}
-
-/* ======================================================
- *  🌙 Tema Oscuro
- * ====================================================== */
-@media (prefers-color-scheme: dark) {
-  body {
-    /* Versión más suave del color primario para mejor contraste */
-    --ion-color-primary: #00bcd4;
-    --ion-color-primary-rgb: 0, 188, 212;
-    --ion-color-primary-contrast: #ffffff;
-    --ion-color-primary-contrast-rgb: 255, 255, 255;
-    --ion-color-primary-shade: #00a0b8;
-    --ion-color-primary-tint: #1ecbe0;
-
-    /* Colores secundarios (opcional) */
-    --ion-color-secondary: #50c8ff;
-    --ion-color-secondary-rgb: 80, 200, 255;
-    --ion-color-secondary-contrast: #ffffff;
-    --ion-color-secondary-contrast-rgb: 255, 255, 255;
-    --ion-color-secondary-shade: #46b0e0;
-    --ion-color-secondary-tint: #62ceff;
-
-    /* Fondos y texto adaptados al modo oscuro */
-    --ion-background-color: #121212;
-    --ion-background-color-rgb: 18, 18, 18;
-
-    --ion-text-color: #ffffff;
-    --ion-text-color-rgb: 255, 255, 255;
-
-    /* Sombra más tenue para tarjetas en modo oscuro */
-    --ion-card-background: #1e1e1e;
-  }
-}
-
-:root {
-  /* =========================================
-     Colores principales
-     ========================================= */
-  --ion-color-primary: #06d8f4;
-  --ion-color-primary-rgb: 6, 216, 244;
-  --ion-color-primary-contrast: #000000;
-  --ion-color-primary-contrast-rgb: 0, 0, 0;
-  --ion-color-primary-shade: #05c1db;
-  --ion-color-primary-tint: #27dcf6;
-
-  /* =========================================
-     Fuente global de la aplicación
-     ========================================= */
   --ion-font-family: 'Open Sans', sans-serif;
 }
 
+/* 2. Detección automática del sistema */
+@media (prefers-color-scheme: dark) {
+  body {
+    @include mi-tema-oscuro;
+  }
+}
 
-
+/* 3. ¡ESTO ES LO QUE TE FALTABA! 
+      Activación manual por clase .dark */
+body.dark {
+  @include mi-tema-oscuro;
+}
