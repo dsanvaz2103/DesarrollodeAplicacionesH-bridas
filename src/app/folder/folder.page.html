@@ -19,13 +19,13 @@
   <ng-container *ngIf="folder === 'productos'">
     <ion-list #productGrid lines="none" class="ion-no-padding">
       <ion-list-header>
-        <ion-label>Nuestras Tablas y Accesorios</ion-label>
+        <ion-label color="primary">Nuestras Tablas y Accesorios</ion-label>
       </ion-list-header>
 
       <ng-container *ngIf="cargandoProductos">
         <ion-item *ngFor="let s of skeletons" class="card-sombreada">
           <ion-thumbnail slot="start">
-            <ion-skeleton-text animated></ion-skeleton-text>
+            <ion-skeleton-text animated style="border-radius: 8px;"></ion-skeleton-text>
           </ion-thumbnail>
           <ion-label>
             <h3><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></h3>
@@ -35,12 +35,16 @@
       </ng-container>
 
       <ng-container *ngIf="!cargandoProductos">
-        <ion-item *ngFor="let prod of listaDeProductos" (click)="verDetalleProducto(prod)" button detail="false" class="card-sombreada">
+        <ion-item *ngFor="let prod of listaDeProductos" 
+                  [routerLink]="['/detalle-producto', prod.id]" 
+                  button 
+                  detail="false" 
+                  class="card-sombreada">
           <ion-thumbnail slot="start">
-            <img [src]="prod.imgUrl" />
+            <img [src]="prod.imgUrl" style="border-radius: 8px; object-fit: cover;" />
           </ion-thumbnail>
           <ion-label>
-            <h2>{{ prod.titulo }}</h2>
+            <h2 style="font-weight: bold;">{{ prod.titulo }}</h2>
             <p>{{ prod.descripcion }}</p>
           </ion-label>
           <ion-button slot="end" fill="clear" (click)="$event.stopPropagation(); agregarAlCarrito(prod)">
@@ -53,10 +57,9 @@
 
   <ng-container *ngIf="folder === 'inicio' || folder === 'Inbox'">
     <div class="ion-padding animate-in">
-      
       <div class="welcome-header">
         <span>Hola, {{ username || 'Skater' }} 👋</span>
-        <h1>Urban Skate Shop</h1>
+        <h1 style="margin-top: 5px; font-weight: 800;">Urban Skate Shop</h1>
       </div>
 
       <div class="promo-banner">
@@ -77,21 +80,18 @@
               <div class="cat-overlay"><span>Tablas</span></div>
             </div>
           </ion-col>
-          
           <ion-col size="6">
             <div class="category-card">
               <img src="assets/img/vans.jpg" alt="Ropa" />
               <div class="cat-overlay"><span>Ropa</span></div>
             </div>
           </ion-col>
-          
           <ion-col size="6">
             <div class="category-card">
               <img src="assets/img/ejes.jpg" alt="Ejes" />
               <div class="cat-overlay"><span>Ejes</span></div>
             </div>
           </ion-col>
-          
           <ion-col size="6">
             <div class="category-card">
               <img src="assets/img/ruedas.jpg" alt="Ruedas" />
@@ -100,43 +100,36 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-
-      <ion-card class="news-card ion-no-margin ion-margin-top">
-        <ion-item lines="none">
-          <ion-icon name="flame" color="danger" slot="start"></ion-icon>
-          <ion-label>
-            <h2>Novedades Element</h2>
-            <p>Descubre lo último en stock.</p>
-          </ion-label>
-          <ion-button fill="clear" slot="end" routerLink="/folder/productos">Ver</ion-button>
-        </ion-item>
-      </ion-card>
     </div>
   </ng-container>
 
   <ng-container *ngIf="folder === 'carrito' || folder === 'Favorites'">
-    <div class="ion-padding animate-in empty-state-container">
-      <ion-icon name="cart-outline"></ion-icon>
-      <h2>Tu carrito está vacío</h2>
+    <div class="ion-padding animate-in empty-state-container" style="text-align: center; margin-top: 20%;">
+      <ion-icon name="cart-outline" style="font-size: 80px; color: #ccc;"></ion-icon>
+      <h2 style="font-weight: bold;">Tu carrito está vacío</h2>
       <p>Añade productos desde la tienda.</p>
-      <ion-button routerLink="/folder/productos" color="primary" shape="round">Ir a la tienda</ion-button>
+      <ion-button routerLink="/folder/productos" color="primary" shape="round" style="margin-top: 20px;">
+        Ir a la tienda
+      </ion-button>
     </div>
   </ng-container>
 
   <ng-container *ngIf="folder === 'cuenta' || folder === 'Archived'">
-    <div class="ion-padding animate-in profile-header">
-      <ion-avatar>
+    <div class="ion-padding animate-in profile-header" style="text-align: center;">
+      <ion-avatar style="margin: 0 auto; width: 100px; height: 100px;">
         <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar" />
       </ion-avatar>
-      <h2>{{ username || 'Skater Pro' }}</h2>
+      <h2 style="margin-top: 15px; font-weight: bold;">{{ username || 'Skater Pro' }}</h2>
       <ion-list lines="inset" class="ion-margin-top">
-        <ion-item button><ion-icon name="receipt-outline" slot="start"></ion-icon><ion-label>Mis Pedidos</ion-label></ion-item>
+        <ion-item button><ion-icon name="receipt-outline" slot="start" color="primary"></ion-icon><ion-label>Mis Pedidos</ion-label></ion-item>
         <ion-item button color="danger"><ion-icon name="log-out-outline" slot="start"></ion-icon><ion-label>Cerrar Sesión</ion-label></ion-item>
       </ion-list>
     </div>
   </ng-container>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="folder === 'productos'">
-    <ion-fab-button (click)="abrirModalAgregar()"><ion-icon name="add"></ion-icon></ion-fab-button>
+    <ion-fab-button (click)="abrirModalAgregar()" color="primary">
+      <ion-icon name="add"></ion-icon> </ion-fab-button>
   </ion-fab>
+
 </ion-content>

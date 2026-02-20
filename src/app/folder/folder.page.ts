@@ -1,9 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { IonicModule, ModalController, AnimationController } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+// Importamos los componentes individuales para standalone
+import { 
+  IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, 
+  IonContent, IonList, IonListHeader, IonLabel, IonItem, 
+  IonThumbnail, IonSkeletonText, IonButton, IonIcon, 
+  IonGrid, IonRow, IonCol, IonCard, IonCardContent, 
+  IonAvatar, IonFab, IonFabButton, ModalController, AnimationController 
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons'; // Importante para registrar iconos
+import { settingsOutline, cartOutline, flame, add, personOutline, moonOutline, receiptOutline, logOutOutline } from 'ionicons/icons'; // Añadido 'add'
 
 // Interfaces y Servicios
 import { Producto } from '../interfaces/producto';
@@ -17,26 +25,24 @@ import { SettingsService } from '../services/settings.service';
   styleUrls: ['./folder.page.scss'],
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule
+    CommonModule, FormsModule, RouterModule,
+    IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, 
+    IonContent, IonList, IonListHeader, IonLabel, IonItem, 
+    IonThumbnail, IonSkeletonText, IonButton, IonIcon, 
+    IonGrid, IonRow, IonCol,
+    IonAvatar, IonFab, IonFabButton
   ],
 })
 export class FolderPage implements OnInit {
 
   folder!: string;
-
-  // Propiedades para Productos
   cargandoProductos = true;
   skeletons: number[] = [1, 2, 3, 4, 5, 6];
   listaDeProductos: Producto[] = [];
+  username: string = '';
 
   @ViewChild('productGrid', { read: ElementRef })
   productGrid!: ElementRef;
-
-  // Solo mantenemos el username para el saludo personalizado
-  username: string = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -44,24 +50,39 @@ export class FolderPage implements OnInit {
     private animationCtrl: AnimationController,
     private productService: TaskService,
     private settings: SettingsService 
-  ) {}
+  ) {
+    // REGISTRO DE ICONOS: Aquí es donde activamos el símbolo '+'
+    addIcons({ 
+      settingsOutline, 
+      cartOutline, 
+      flame, 
+      add, // El icono para el botón flotante
+      personOutline, 
+      moonOutline, 
+      receiptOutline, 
+      logOutOutline 
+    });
+  }
+
+  async ionViewWillEnter() {
+    this.username = await this.settings.get('username') || 'Skater';
+    
+    if (this.folder === 'productos') {
+      this.listaDeProductos = this.productService.getProductos();
+      if (!this.cargandoProductos) {
+        setTimeout(() => this.reproducirAnimacionProductos(), 50);
+      }
+    }
+  }
 
   async ngOnInit() {
-    // 1. Cargamos el nombre (mantenemos tu personalización)
-    this.username = await this.settings.get('username') || '';
-
-    // ¡IMPORTANTE! Hemos borrado el toggle del body que había aquí.
-    // Ahora esta página NO decide si la app es oscura o clara, 
-    // respeta lo que diga el AppComponent.
-
     this.folder = this.activatedRoute.snapshot.paramMap.get('id') || 'inicio';
+    this.username = await this.settings.get('username') || 'Skater';
 
     if (this.folder === 'productos') {
       this.cargarProductosSimulados();
     }
   }
-
-  // Eliminado toggleDarkMode() - Ahora se hace en la página de Ajustes
 
   async saveUsername(event: any) {
     const name = event.target.value;
@@ -77,6 +98,23 @@ export class FolderPage implements OnInit {
       this.cargandoProductos = false;
       setTimeout(() => this.reproducirAnimacionProductos(), 100);
     }, 1500);
+  }
+
+  private reproducirAnimacionProductos() {
+    if (!this.productGrid || !this.productGrid.nativeElement) return;
+    const items = this.productGrid.nativeElement.querySelectorAll('.card-sombreada');
+    if (items.length === 0) return;
+
+    const itemsArray = Array.from(items) as HTMLElement[];
+    itemsArray.forEach((item, index) => {
+      this.animationCtrl.create()
+        .addElement(item)
+        .duration(400)
+        .fromTo('opacity', '0', '1')
+        .fromTo('transform', 'translateY(15px)', 'translateY(0px)')
+        .delay(index * 40)
+        .play();
+    });
   }
 
   async verDetalleProducto(producto: Producto) {
@@ -101,23 +139,6 @@ export class FolderPage implements OnInit {
       this.listaDeProductos = this.productService.getProductos();
       setTimeout(() => this.reproducirAnimacionProductos(), 50);
     }
-  }
-
-  private reproducirAnimacionProductos() {
-    if (!this.productGrid) return;
-    const items = this.productGrid.nativeElement.querySelectorAll('.card-sombreada');
-    if (items.length === 0) return;
-
-    const itemsArray = Array.from(items) as HTMLElement[];
-    itemsArray.forEach((item, index) => {
-      this.animationCtrl.create()
-        .addElement(item)
-        .duration(500)
-        .fromTo('opacity', '0', '1')
-        .fromTo('transform', 'translateY(20px)', 'translateY(0px)')
-        .delay(index * 80)
-        .play();
-    });
   }
 
   agregarAlCarrito(producto: Producto) {

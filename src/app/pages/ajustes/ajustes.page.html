@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/folder/inicio"></ion-back-button>
+      <ion-back-button defaultHref="/folder/productos"></ion-back-button>
     </ion-buttons>
     <ion-title>Ajustes</ion-title>
   </ion-toolbar>
@@ -14,21 +14,41 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list lines="inset">
+  <ion-list lines="inset" class="ion-margin-top">
     <ion-list-header>
-      <ion-label>Apariencia</ion-label>
+      <ion-label color="primary">Tu Perfil</ion-label>
     </ion-list-header>
 
     <ion-item>
-      <ion-icon slot="start" name="moon-outline"></ion-icon>
+      <ion-icon slot="start" name="person-outline" color="primary"></ion-icon>
+      <ion-label position="stacked">Nombre Skater</ion-label>
+      <ion-input 
+        [(ngModel)]="username" 
+        (ionInput)="guardarNombre()" 
+        placeholder="Escribe tu apodo..."
+        clearInput="true">
+      </ion-input>
+    </ion-item>
+
+    <ion-list-header class="ion-margin-top">
+      <ion-label color="primary">Apariencia</ion-label>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-icon slot="start" name="moon-outline" color="primary"></ion-icon>
       <ion-label>Modo Oscuro</ion-label>
       <ion-toggle [(ngModel)]="modoOscuro" (ionChange)="cambiarModoOscuro()"></ion-toggle>
     </ion-item>
   </ion-list>
 
-  <div class="ion-padding">
-    <p style="font-size: 0.8em; color: gray;">
-      Configura tus preferencias de visualización para la app de Skate.
-    </p>
+  <div class="ion-padding ion-text-center">
+    <ion-card color="light">
+      <ion-card-content>
+        <p style="font-size: 0.9em;">
+          Personaliza tu experiencia en <strong>Urban Skateshop</strong>. 
+          Los cambios se guardan automáticamente.
+        </p>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

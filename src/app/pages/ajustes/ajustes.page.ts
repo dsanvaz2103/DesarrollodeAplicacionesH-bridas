@@ -2,59 +2,52 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { 
-  IonContent, 
-  IonHeader, 
-  IonTitle, 
-  IonToolbar, 
-  IonList, 
-  IonListHeader, 
-  IonItem, 
-  IonLabel, 
-  IonToggle, 
-  IonButtons, 
-  IonBackButton, IonIcon } from '@ionic/angular/standalone';
-import { SettingsService } from 'src/app/services/settings.service';
+  IonHeader, IonToolbar, IonButtons, IonBackButton, 
+  IonTitle, IonContent, IonList, IonListHeader, 
+  IonItem, IonLabel, IonIcon, IonInput, IonToggle,
+  IonCard, IonCardContent // <--- Estos son los que te daban el error
+} from '@ionic/angular/standalone';
+import { SettingsService } from '../../services/settings.service';
+import { addIcons } from 'ionicons';
+import { personOutline, moonOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-ajustes',
   templateUrl: './ajustes.page.html',
   styleUrls: ['./ajustes.page.scss'],
   standalone: true,
-  imports: [IonIcon, 
+  imports: [
     CommonModule, 
     FormsModule, 
-    IonContent, 
-    IonHeader, 
-    IonTitle, 
-    IonToolbar, 
-    IonList, 
-    IonListHeader, 
-    IonItem, 
-    IonLabel, 
-    IonToggle, 
-    IonButtons, 
-    IonBackButton
+    IonHeader, IonToolbar, IonButtons, IonBackButton, 
+    IonTitle, IonContent, IonList, IonListHeader, 
+    IonItem, IonLabel, IonIcon, IonInput, IonToggle,
+    IonCard, IonCardContent // <--- Deben estar aquí también
   ]
 })
 export class AjustesPage implements OnInit {
 
+  username: string = '';
   modoOscuro: boolean = false;
 
-  constructor(private settingsService: SettingsService) { }
+  constructor(private settings: SettingsService) {
+    // Registro de iconos necesarios para esta página
+    addIcons({ personOutline, moonOutline });
+  }
 
   async ngOnInit() {
-    // Leemos la clave 'modo_oscuro' (la misma que en AppComponent)
-    this.modoOscuro = await this.settingsService.get('modo_oscuro') || false;
-    this.aplicarTema(this.modoOscuro);
+    // Cargamos los valores guardados al iniciar
+    this.username = await this.settings.get('username') || '';
+    this.modoOscuro = await this.settings.get('darkMode') || false;
+  }
+
+  async guardarNombre() {
+    await this.settings.set('username', this.username);
   }
 
   async cambiarModoOscuro() {
-    // Guardamos el cambio
-    await this.settingsService.set('modo_oscuro', this.modoOscuro);
-    this.aplicarTema(this.modoOscuro);
-  }
-
-  aplicarTema(esOscuro: boolean) {
-    document.body.classList.toggle('dark', esOscuro);
+    await this.settings.set('darkMode', this.modoOscuro);
+    // Aplicamos o quitamos la clase .dark al body para el cambio visual inmediato
+    document.body.classList.toggle('dark', this.modoOscuro);
   }
 }
