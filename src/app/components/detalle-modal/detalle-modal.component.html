@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-title>
-      {{ esNuevo ? 'Nuevo Producto' : (cargando ? 'Cargando...' : producto.titulo) }}
+      {{ esNuevo ? 'Nuevo Producto' : (esEdicion ? 'Editar Producto' : (cargando ? 'Cargando...' : producto.titulo)) }}
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="cerrar()">
@@ -12,13 +12,13 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="cargando && !esNuevo" class="ion-padding">
+  <div *ngIf="cargando && !esNuevo && !esEdicion" class="ion-padding">
     <ion-skeleton-text animated style="width: 100%; height: 250px; border-radius: 15px;"></ion-skeleton-text>
     <ion-skeleton-text animated style="width: 60%; height: 25px; margin-top: 20px;"></ion-skeleton-text>
     <ion-skeleton-text animated style="width: 90%; height: 15px; margin-top: 15px;"></ion-skeleton-text>
   </div>
 
-  <div *ngIf="!cargando && !esNuevo" class="animate-in">
+  <div *ngIf="!cargando && !esNuevo && !esEdicion" class="animate-in">
     <div class="product-header">
       <img [src]="producto.imgUrl" alt="producto">
     </div>
@@ -34,7 +34,7 @@
     </div>
   </div>
 
-  <div *ngIf="esNuevo" class="ion-padding animate-in">
+  <div *ngIf="esNuevo || esEdicion" class="ion-padding animate-in">
     <div class="form-card">
       <ion-list lines="full" class="ion-no-padding">
         <ion-item class="input-item">
@@ -56,12 +56,12 @@
 
     <div class="image-preview" *ngIf="producto.imgUrl">
       <p>Vista previa:</p>
-      <img [src]="producto.imgUrl" />
+      <img [src]="producto.imgUrl" style="max-height: 150px; width: 100%; object-fit: contain; border-radius: 10px;" />
     </div>
 
     <ion-button expand="block" color="primary" class="ion-margin-top main-btn" (click)="agregar()">
-      <ion-icon name="save-outline" slot="start"></ion-icon>
-      Publicar en Tienda
+      <ion-icon [name]="esEdicion ? 'save-outline' : 'add-outline'" slot="start"></ion-icon>
+      {{ esEdicion ? 'Guardar Cambios' : 'Publicar en Tienda' }}
     </ion-button>
   </div>
 </ion-content>
