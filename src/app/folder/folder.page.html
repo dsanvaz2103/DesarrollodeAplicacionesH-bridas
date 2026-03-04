@@ -12,11 +12,29 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+
+  <ion-toolbar color="primary" *ngIf="folder === 'productos'">
+    <ion-searchbar 
+      placeholder="Buscar en la tienda..." 
+      (ionInput)="onSearchChange($event)" 
+      debounce="300">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   
   <ng-container *ngIf="folder === 'productos'">
+    
+    <ion-item lines="none" class="ion-margin-top">
+      <ion-label>Ordenar por:</ion-label>
+      <ion-select value="titulo" (ionChange)="onSortChange($event)" interface="popover">
+        <ion-select-option value="titulo">Nombre (A-Z)</ion-select-option>
+        <ion-select-option value="id">Más antiguos</ion-select-option>
+        <ion-select-option value="descripcion">Descripción</ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-list #productGrid lines="none" class="ion-no-padding">
       <ion-list-header>
         <ion-label color="primary">Nuestras Tablas y Accesorios</ion-label>
@@ -129,7 +147,8 @@
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="folder === 'productos'">
     <ion-fab-button (click)="abrirModalAgregar()" color="primary">
-      <ion-icon name="add"></ion-icon> </ion-fab-button>
+      <ion-icon name="add"></ion-icon> 
+    </ion-fab-button>
   </ion-fab>
 
 </ion-content>

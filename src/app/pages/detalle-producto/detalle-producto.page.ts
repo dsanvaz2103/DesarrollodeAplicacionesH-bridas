@@ -11,7 +11,7 @@ import {
 } from '@ionic/angular/standalone';
 import { AlertController, ToastController, ModalController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { trashOutline, ribbonOutline, shieldCheckmarkOutline, alertCircleOutline, createOutline, saveOutline } from 'ionicons/icons';
+import { trashOutline, ribbonOutline, shieldCheckmarkOutline, alertCircleOutline, createOutline } from 'ionicons/icons';
 import { DetalleModalComponent } from '../../components/detalle-modal/detalle-modal.component';
 
 @Component({
@@ -25,7 +25,7 @@ import { DetalleModalComponent } from '../../components/detalle-modal/detalle-mo
     IonContent, IonButton, IonIcon, IonCard, IonCardHeader, 
     IonCardSubtitle, IonCardTitle, IonCardContent, IonBadge,
     IonList, IonItem, IonLabel,
-    DetalleModalComponent 
+    DetalleModalComponent // <--- IMPORTANTE: Si esto no está aquí, el modal no se abre
   ]
 })
 export class DetalleProductoPage implements OnInit {
@@ -40,23 +40,24 @@ export class DetalleProductoPage implements OnInit {
     private toastCtrl: ToastController,
     private modalCtrl: ModalController 
   ) { 
-    // Añadimos saveOutline por si lo usas en el modal
-    addIcons({ trashOutline, ribbonOutline, shieldCheckmarkOutline, alertCircleOutline, createOutline, saveOutline });
+    addIcons({ trashOutline, ribbonOutline, shieldCheckmarkOutline, alertCircleOutline, createOutline });
   }
 
   async ngOnInit() {
+    // Esperamos a que el servicio esté listo (importante por el Storage)
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      // Intentamos obtener el producto directamente
+      // Intentamos obtener el producto. 
+      // Si el service carga del storage, puede tardar un poco.
       this.producto = this.taskService.getProductoPorId(Number(id));
-      
-      // Si no aparece (por delay del storage), reintentamos una vez
-      if (!this.producto) {
-        setTimeout(() => {
-          this.producto = this.taskService.getProductoPorId(Number(id));
-          if (!this.producto) this.manejarError();
-        }, 500);
-      }
+    }
+
+    if (!this.producto) {
+      // Damos un margen por si el storage es lento
+      setTimeout(() => {
+        this.producto = this.taskService.getProductoPorId(Number(id));
+        if(!this.producto) this.manejarError();
+      }, 500);
     }
   }
 
@@ -66,8 +67,6 @@ export class DetalleProductoPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: DetalleModalComponent,
       componentProps: {
-        // Pasamos la copia del producto. 
-        // TIP: Asegúrate de que en el modal 'esEdicion' se ponga a true si id > 0
         producto: { ...this.producto } 
       }
     });
@@ -77,17 +76,15 @@ export class DetalleProductoPage implements OnInit {
     const { data, role } = await modal.onDidDismiss();
 
     if (role === 'confirm' && data) {
-      // 1. Guardar en el Storage a través del servicio
+      // Guardamos permanentemente
       await this.taskService.actualizarProducto(data);
-      
-      // 2. Refrescar la referencia local para que Angular detecte el cambio en el HTML
-      this.producto = { ...data };
+      // Refrescamos la vista
+      this.producto = data;
 
       const toast = await this.toastCtrl.create({
         message: 'Producto actualizado correctamente',
         duration: 2000,
-        color: 'success', // Cambiado a success para feedback visual verde
-        position: 'top'
+        color: 'primary'
       });
       await toast.present();
     }

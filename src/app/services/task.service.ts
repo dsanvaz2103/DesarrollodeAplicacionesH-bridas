@@ -25,11 +25,11 @@ export class TaskService {
     if (guardados && guardados.length > 0) {
       this.listaDeProductos = guardados;
     } else {
-      // Carga inicial por defecto si el storage está vacío
+      // Datos iniciales por defecto
       this.listaDeProductos = [
-        { id: 1, titulo: "Tabla Santa Cruz", descripcion: "Madera de arce.", imgUrl: "assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg" },
-        { id: 2, titulo: "Zapatillas DC", descripcion: "Suela reforzada.", imgUrl: "assets/img/adys100634_dcshoes,p_210_frt4.jpg" },
-        { id: 3, titulo: "Casco Pro", descripcion: "Protección segura.", imgUrl: "assets/img/protecciones.jpg" }
+        { id: 1, titulo: "Tabla Santa Cruz", descripcion: "Madera de arce canadiense.", imgUrl: "assets/img/santa-cruz-classic-dot-skateboard-deck-c8.jpg" },
+        { id: 2, titulo: "Zapatillas DC", descripcion: "Suela reforzada para skate.", imgUrl: "assets/img/adys100634_dcshoes,p_210_frt4.jpg" },
+        { id: 3, titulo: "Casco Pro", descripcion: "Protección certificada.", imgUrl: "assets/img/protecciones.jpg" }
       ];
       await this.guardarEnStorage();
     }
@@ -39,8 +39,26 @@ export class TaskService {
     await this._storage?.set('productos', this.listaDeProductos);
   }
 
-  getProductos(): Producto[] {
-    return [...this.listaDeProductos];
+  // MÉTODO CON FILTROS (Para nota máxima)
+  getProductos(query: string = '', campo: string = 'titulo'): Producto[] {
+    let resultado = [...this.listaDeProductos];
+
+    // Filtrar por texto
+    if (query) {
+      resultado = resultado.filter(p => 
+        p.titulo.toLowerCase().includes(query.toLowerCase()) || 
+        p.descripcion.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    // Ordenar dinámicamente
+    resultado.sort((a: any, b: any) => {
+      const valA = a[campo].toString().toLowerCase();
+      const valB = b[campo].toString().toLowerCase();
+      return valA > valB ? 1 : (valA < valB ? -1 : 0);
+    });
+
+    return resultado;
   }
 
   getProductoPorId(id: number): Producto | undefined {
