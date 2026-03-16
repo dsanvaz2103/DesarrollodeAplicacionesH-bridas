@@ -53,18 +53,6 @@
         </ion-label>
       </ion-list-header>
 
-      <ng-container *ngIf="cargandoProductos">
-        <ion-item *ngFor="let s of skeletons" class="card-sombreada" style="margin: 10px 16px; border-radius: 12px;">
-          <ion-thumbnail slot="start">
-            <ion-skeleton-text animated style="border-radius: 8px;"></ion-skeleton-text>
-          </ion-thumbnail>
-          <ion-label>
-            <h3><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></h3>
-            <p><ion-skeleton-text animated style="width: 80%"></ion-skeleton-text></p>
-          </ion-label>
-        </ion-item>
-      </ng-container>
-
       <ng-container *ngIf="!cargandoProductos">
         <ion-item *ngFor="let prod of listaDeProductos" 
                   class="card-sombreada"
@@ -125,39 +113,54 @@
   </ng-container>
 
   <ng-container *ngIf="folder === 'carrito'">
-    <div *ngIf="productService.getCarrito().length === 0" class="ion-padding animate-in" style="text-align: center; margin-top: 25%;">
+    <div *ngIf="productService.getCarrito().length === 0" class="ion-padding" style="text-align: center; margin-top: 25%;">
       <ion-icon name="cart-outline" style="font-size: 100px; color: #eee;"></ion-icon>
       <h2 style="font-weight: 800; color: #444;">Tu carrito está vacío</h2>
-      <p style="color: #888;">Añade productos desde la tienda para empezar.</p>
-      <ion-button routerLink="/folder/productos" color="primary" shape="round" style="margin-top: 30px;">
-        Ir a la tienda
-      </ion-button>
+      <ion-button routerLink="/folder/productos" color="primary" shape="round">Ir a la tienda</ion-button>
     </div>
 
-    <ion-list *ngIf="productService.getCarrito().length > 0" class="ion-padding">
-      <ion-item *ngFor="let item of productService.getCarrito()" lines="full">
-        <ion-thumbnail slot="start"><img [src]="item.imgUrl" /></ion-thumbnail>
-        <ion-label>
-          <h2 style="font-weight: 600;">{{ item.titulo }}</h2>
-          <p style="color: var(--ion-color-primary); font-weight: 700;">{{ item.precio }}€</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+    <div *ngIf="productService.getCarrito().length > 0">
+      <ion-list class="ion-padding">
+        <ion-item *ngFor="let item of productService.getCarrito()" lines="full">
+          <ion-thumbnail slot="start"><img [src]="item.imgUrl" /></ion-thumbnail>
+          <ion-label>
+            <h2 style="font-weight: 600;">{{ item.titulo }}</h2>
+            <p style="color: var(--ion-color-primary); font-weight: 700;">{{ item.precio | number:'1.2-2' }}€</p>
+          </ion-label>
+          <ion-button slot="end" fill="clear" color="danger" (click)="productService.quitarDelCarrito(item.id)">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+      <div class="ion-padding" style="border-top: 2px dashed #eee; margin-top: 10px;">
+        <ion-row class="ion-align-items-center">
+          <ion-col><h2 style="margin: 0; font-weight: 500; color: #666;">Total:</h2></ion-col>
+          <ion-col style="text-align: right;">
+            <h1 style="margin: 0; font-weight: 800; color: var(--ion-color-primary);">
+              {{ productService.getTotalCarrito() | number:'1.2-2' }}€
+            </h1>
+          </ion-col>
+        </ion-row>
+        <ion-button expand="block" color="success" shape="round" style="margin-top: 20px; font-weight: 700;" (click)="realizarPedido()">
+          FINALIZAR PEDIDO ({{ productService.getCarrito().length }})
+        </ion-button>
+      </div>
+    </div>
   </ng-container>
 
   <ng-container *ngIf="folder === 'cuenta'">
-    <div class="ion-padding animate-in" style="text-align: center; padding-top: 40px;">
+    <div class="ion-padding" style="text-align: center; padding-top: 40px;">
       <ion-avatar style="margin: 0 auto; width: 100px; height: 100px;">
         <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
       <h2 style="font-weight: 800; margin-top: 15px;">{{ username }}</h2>
-      
       <ion-list lines="inset" class="ion-margin-top" style="border-radius: 15px; overflow: hidden;">
         <ion-item button (click)="restablecerTodo()">
           <ion-icon name="refresh-outline" slot="start" color="warning"></ion-icon>
           <ion-label style="font-weight: 600;">Restablecer Catálogo</ion-label>
         </ion-item>
-        <ion-item button color="danger" detail="false" style="margin-top: 10px;">
+        <ion-item button color="danger" detail="false">
           <ion-icon name="log-out-outline" slot="start"></ion-icon>
           <ion-label style="font-weight: 600;">Cerrar Sesión</ion-label>
         </ion-item>

@@ -8,13 +8,13 @@ import {
   IonThumbnail, IonSkeletonText, IonButton, IonIcon, 
   IonGrid, IonRow, IonCol, IonAvatar, IonFab, IonFabButton, 
   ModalController, AnimationController, IonSearchbar, IonSelect, IonSelectOption,
-  ToastController, IonBadge // <--- AÑADIDO IonBadge
+  ToastController, IonBadge 
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons'; 
 import { 
   settingsOutline, cartOutline, flame, add, personOutline, 
   moonOutline, receiptOutline, logOutOutline, swapVerticalOutline,
-  addCircleOutline, checkmarkCircleOutline, refreshOutline
+  addCircleOutline, checkmarkCircleOutline, refreshOutline, trashOutline // <--- AÑADIDO trashOutline
 } from 'ionicons/icons'; 
 
 import { Producto } from '../interfaces/producto';
@@ -34,7 +34,7 @@ import { SettingsService } from '../services/settings.service';
     IonThumbnail, IonSkeletonText, IonButton, IonIcon, 
     IonGrid, IonRow, IonCol, IonAvatar, IonFab, IonFabButton,
     IonSearchbar, IonSelect, IonSelectOption,
-    IonBadge // <--- AÑADIDO AQUÍ TAMBIÉN
+    IonBadge 
   ],
 })
 export class FolderPage implements OnInit {
@@ -55,14 +55,14 @@ export class FolderPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalCtrl: ModalController,
     private animationCtrl: AnimationController,
-    public productService: TaskService, // <--- CAMBIADO A PUBLIC para el HTML
+    public productService: TaskService, 
     private settings: SettingsService,
     private toastCtrl: ToastController
   ) {
     addIcons({ 
       settingsOutline, cartOutline, flame, add, personOutline, 
       moonOutline, receiptOutline, logOutOutline, swapVerticalOutline,
-      addCircleOutline, checkmarkCircleOutline, refreshOutline
+      addCircleOutline, checkmarkCircleOutline, refreshOutline, trashOutline // <--- REGISTRADO AQUÍ TAMBIÉN
     });
   }
 
@@ -117,6 +117,20 @@ export class FolderPage implements OnInit {
       ]
     });
     await toast.present();
+  }
+
+  // --- MÉTODO PARA FINALIZAR PEDIDO (EL QUE FALTABA) ---
+  async realizarPedido() {
+    const toast = await this.toastCtrl.create({
+      message: '¡Pedido realizado con éxito! 🛹 En camino...',
+      duration: 3000,
+      color: 'success',
+      position: 'middle'
+    });
+    await toast.present();
+    
+    // Vaciamos el carrito tras la compra
+    this.productService.getCarrito().length = 0; 
   }
 
   // --- MANTENIMIENTO ---

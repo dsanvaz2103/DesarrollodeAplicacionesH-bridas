@@ -22,25 +22,56 @@ export class TaskService {
   }
 
   async cargarDeStorage() {
+    // Cargar Catálogo de Productos
     const guardados = await this._storage?.get('productos');
     if (guardados && guardados.length > 5) {
       this.listaDeProductos = guardados;
     } else {
       await this.restablecerCatalogo();
     }
+
+    // --- NUEVO: Cargar Carrito guardado para no perderlo al refrescar ---
+    const carritoGuardado = await this._storage?.get('carrito');
+    if (carritoGuardado) {
+      this.carrito = carritoGuardado;
+    }
   }
 
-  // --- MÉTODOS DEL CARRITO ---
-  agregarAlCarrito(producto: Producto) {
+  // --- MÉTODOS DEL CARRITO CON PERSISTENCIA ---
+  
+  async agregarAlCarrito(producto: Producto) {
     this.carrito.push(producto);
-    console.log('Carrito actualizado:', this.carrito.length);
+    await this.guardarCarritoEnStorage(); // Guardar en memoria física
+    console.log('Carrito guardado en storage. Items:', this.carrito.length);
   }
 
   getCarrito() {
     return this.carrito;
   }
 
-  // --- MÉTODOS DE CONSULTA Y CRUD ---
+  getTotalCarrito(): number {
+    return this.carrito.reduce((total, p) => total + p.precio, 0);
+  }
+
+  async quitarDelCarrito(id: number) {
+    // Filtramos para quitar el producto
+    this.carrito = this.carrito.filter(p => p.id !== id);
+    await this.guardarCarritoEnStorage(); // Actualizar storage
+    console.log('Producto quitado y storage actualizado.');
+  }
+
+  // --- NUEVO: Limpiar carrito al finalizar pedido ---
+  async limpiarCarrito() {
+    this.carrito = [];
+    await this.guardarCarritoEnStorage();
+  }
+
+  private async guardarCarritoEnStorage() {
+    await this._storage?.set('carrito', this.carrito);
+  }
+
+  // --- MÉTODOS DE CONSULTA Y CRUD DEL CATÁLOGO ---
+  
   getProductos(query: string = '', campo: string = 'titulo'): Producto[] {
     let resultado = [...this.listaDeProductos];
     if (query) {
@@ -57,7 +88,6 @@ export class TaskService {
     return resultado;
   }
 
-  // ESTA ES LA QUE TE FALTABA
   getProductoPorId(id: number): Producto | undefined {
     return this.listaDeProductos.find(p => p.id === id);
   }
@@ -70,7 +100,6 @@ export class TaskService {
     await this.guardarEnStorage();
   }
 
-  // ESTA TAMBIÉN TE FALTABA
   async actualizarProducto(productoEditado: Producto) {
     const index = this.listaDeProductos.findIndex(p => p.id === productoEditado.id);
     if (index !== -1) {
@@ -79,7 +108,6 @@ export class TaskService {
     }
   }
 
-  // Y ESTA OTRA
   async eliminarProducto(id: number) {
     this.listaDeProductos = this.listaDeProductos.filter(p => p.id !== id);
     await this.guardarEnStorage();
