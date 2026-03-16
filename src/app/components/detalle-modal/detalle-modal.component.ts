@@ -13,7 +13,7 @@ import { Producto } from '../../interfaces/producto';
 })
 export class DetalleModalComponent implements OnInit {
   // Recibe el producto desde la página de detalle o desde la lista
-  @Input() producto: Producto = { id: 0, titulo: '', descripcion: '', imgUrl: '' };
+  @Input() producto: Producto = { id: 0, titulo: '', descripcion: '', imgUrl: '', precio: 0 };
   
   cargando = false; // Lo ponemos en false por defecto para evitar skeletons innecesarios
   esNuevo = false;

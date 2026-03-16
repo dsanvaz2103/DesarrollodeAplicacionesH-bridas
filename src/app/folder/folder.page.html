@@ -1,12 +1,23 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
-    <ion-title>{{ folder | titlecase }}</ion-title>
+    <ion-title style="font-weight: 800; letter-spacing: 0.5px;">
+      {{ folder | titlecase }}
+    </ion-title>
 
     <ion-buttons slot="end">
+      <ion-button routerLink="/folder/carrito" style="position: relative;">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        <ion-badge *ngIf="productService.getCarrito().length > 0" 
+                   color="danger" 
+                   style="position: absolute; top: 0; right: 0; font-size: 0.65rem; border-radius: 50%; padding: 3px 5px;">
+          {{ productService.getCarrito().length }}
+        </ion-badge>
+      </ion-button>
+      
       <ion-button routerLink="/ajustes">
         <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
       </ion-button>
@@ -17,7 +28,8 @@
     <ion-searchbar 
       placeholder="Buscar en la tienda..." 
       (ionInput)="onSearchChange($event)" 
-      debounce="300">
+      debounce="300"
+      class="ion-no-padding px-3">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -25,23 +37,24 @@
 <ion-content [fullscreen]="true">
   
   <ng-container *ngIf="folder === 'productos'">
-    
-    <ion-item lines="none" class="ion-margin-top">
-      <ion-label>Ordenar por:</ion-label>
+    <ion-item lines="none" class="ion-margin-top" style="--background: transparent;">
+      <ion-label style="font-weight: 600; font-size: 0.9rem; color: #666;">Ordenar por:</ion-label>
       <ion-select value="titulo" (ionChange)="onSortChange($event)" interface="popover">
         <ion-select-option value="titulo">Nombre (A-Z)</ion-select-option>
+        <ion-select-option value="precio">Precio (Menor a Mayor)</ion-select-option>
         <ion-select-option value="id">Más antiguos</ion-select-option>
-        <ion-select-option value="descripcion">Descripción</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-list #productGrid lines="none" class="ion-no-padding">
-      <ion-list-header>
-        <ion-label color="primary">Nuestras Tablas y Accesorios</ion-label>
+    <ion-list #productGrid lines="none" class="ion-no-padding" style="background: transparent;">
+      <ion-list-header style="margin-bottom: 10px;">
+        <ion-label color="primary" style="font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase;">
+          Nuestras Tablas y Accesorios
+        </ion-label>
       </ion-list-header>
 
       <ng-container *ngIf="cargandoProductos">
-        <ion-item *ngFor="let s of skeletons" class="card-sombreada">
+        <ion-item *ngFor="let s of skeletons" class="card-sombreada" style="margin: 10px 16px; border-radius: 12px;">
           <ion-thumbnail slot="start">
             <ion-skeleton-text animated style="border-radius: 8px;"></ion-skeleton-text>
           </ion-thumbnail>
@@ -54,19 +67,21 @@
 
       <ng-container *ngIf="!cargandoProductos">
         <ion-item *ngFor="let prod of listaDeProductos" 
-                  [routerLink]="['/detalle-producto', prod.id]" 
-                  button 
-                  detail="false" 
-                  class="card-sombreada">
-          <ion-thumbnail slot="start">
-            <img [src]="prod.imgUrl" style="border-radius: 8px; object-fit: cover;" />
+                  class="card-sombreada"
+                  style="margin: 10px 16px; --border-radius: 12px; border: 1px solid #f0f0f0;">
+          
+          <ion-thumbnail slot="start" style="padding: 5px;" [routerLink]="['/detalle-producto', prod.id]">
+            <img [src]="prod.imgUrl" style="border-radius: 8px; object-fit: contain;" onerror="this.src='assets/img/logo.png'"/>
           </ion-thumbnail>
-          <ion-label>
-            <h2 style="font-weight: bold;">{{ prod.titulo }}</h2>
-            <p>{{ prod.descripcion }}</p>
+
+          <ion-label [routerLink]="['/detalle-producto', prod.id]">
+            <h2 style="font-weight: 700;">{{ prod.titulo }}</h2>
+            <p style="font-size: 0.85rem; color: #777; margin-bottom: 5px;">{{ prod.descripcion }}</p>
+            <h3 style="color: var(--ion-color-primary); font-weight: 800;">{{ prod.precio | number:'1.2-2' }}€</h3>
           </ion-label>
+
           <ion-button slot="end" fill="clear" (click)="$event.stopPropagation(); agregarAlCarrito(prod)">
-            <ion-icon name="cart-outline" slot="icon-only" color="primary"></ion-icon>
+            <ion-icon name="add-circle-outline" slot="icon-only" color="primary" style="font-size: 2rem;"></ion-icon>
           </ion-button>
         </ion-item>
       </ng-container>
@@ -75,45 +90,33 @@
 
   <ng-container *ngIf="folder === 'inicio' || folder === 'Inbox'">
     <div class="ion-padding animate-in">
-      <div class="welcome-header">
-        <span>Hola, {{ username || 'Skater' }} 👋</span>
-        <h1 style="margin-top: 5px; font-weight: 800;">Urban Skate Shop</h1>
+      <div class="welcome-header" style="margin-bottom: 20px;">
+        <span style="color: #888; font-weight: 500;">Hola, {{ username || 'Skater' }} 👋</span>
+        <h1 style="margin: 0; font-weight: 800; font-size: 1.8rem;">Urban Skate Shop</h1>
       </div>
 
-      <div class="promo-banner">
-        <div class="promo-content">
-          <h2>-20% BAKER</h2>
-          <p>Toda la nueva colección disponible.</p>
-          <ion-button size="small" color="light" routerLink="/folder/productos">VER OFERTA</ion-button>
+      <div class="promo-banner" style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2); position: relative; background: #000;">
+        <img src="assets/img/Cabecera.jpg" alt="Banner Skate" style="filter: brightness(0.7); width: 100%; height: 180px; object-fit: cover;" />
+        <div style="position: absolute; top: 20%; left: 20px; color: white; width: 60%;">
+          <h2 style="font-weight: 900; margin: 0; font-size: 1.5rem;">-20% BAKER</h2>
+          <p style="margin: 5px 0; font-size: 0.9rem;">Nueva colección disponible.</p>
+          <ion-button size="small" color="light" routerLink="/folder/productos" style="font-weight: 700; --border-radius: 8px;">VER OFERTA</ion-button>
         </div>
-        <img src="assets/img/Cabecera.jpg" alt="Banner Skate" />
       </div>
 
-      <h3 class="section-title">Categorías</h3>
+      <h3 style="font-weight: 700; margin-top: 25px;">Categorías populares</h3>
       <ion-grid class="ion-no-padding">
         <ion-row>
-          <ion-col size="6">
-            <div class="category-card" routerLink="/folder/productos">
-              <img src="assets/img/tabla-element.jpg" alt="Tablas" />
-              <div class="cat-overlay"><span>Tablas</span></div>
+          <ion-col size="6" style="padding: 5px;" routerLink="/folder/productos">
+            <div style="border-radius: 12px; height: 100px; overflow: hidden; position: relative;">
+              <img src="assets/img/tabla-element.jpg" style="object-fit: cover; width: 100%; height: 100%;" />
+              <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">Tablas</div>
             </div>
           </ion-col>
-          <ion-col size="6">
-            <div class="category-card">
-              <img src="assets/img/vans.jpg" alt="Ropa" />
-              <div class="cat-overlay"><span>Ropa</span></div>
-            </div>
-          </ion-col>
-          <ion-col size="6">
-            <div class="category-card">
-              <img src="assets/img/ejes.jpg" alt="Ejes" />
-              <div class="cat-overlay"><span>Ejes</span></div>
-            </div>
-          </ion-col>
-          <ion-col size="6">
-            <div class="category-card">
-              <img src="assets/img/ruedas.jpg" alt="Ruedas" />
-              <div class="cat-overlay"><span>Ruedas</span></div>
+          <ion-col size="6" style="padding: 5px;" routerLink="/folder/productos">
+            <div style="border-radius: 12px; height: 100px; overflow: hidden; position: relative;">
+              <img src="assets/img/adys100634_dcshoes,p_210_frt4.jpg" style="object-fit: cover; width: 100%; height: 100%;" />
+              <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">Zapatillas</div>
             </div>
           </ion-col>
         </ion-row>
@@ -121,26 +124,43 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="folder === 'carrito' || folder === 'Favorites'">
-    <div class="ion-padding animate-in empty-state-container" style="text-align: center; margin-top: 20%;">
-      <ion-icon name="cart-outline" style="font-size: 80px; color: #ccc;"></ion-icon>
-      <h2 style="font-weight: bold;">Tu carrito está vacío</h2>
-      <p>Añade productos desde la tienda.</p>
-      <ion-button routerLink="/folder/productos" color="primary" shape="round" style="margin-top: 20px;">
+  <ng-container *ngIf="folder === 'carrito'">
+    <div *ngIf="productService.getCarrito().length === 0" class="ion-padding animate-in" style="text-align: center; margin-top: 25%;">
+      <ion-icon name="cart-outline" style="font-size: 100px; color: #eee;"></ion-icon>
+      <h2 style="font-weight: 800; color: #444;">Tu carrito está vacío</h2>
+      <p style="color: #888;">Añade productos desde la tienda para empezar.</p>
+      <ion-button routerLink="/folder/productos" color="primary" shape="round" style="margin-top: 30px;">
         Ir a la tienda
       </ion-button>
     </div>
+
+    <ion-list *ngIf="productService.getCarrito().length > 0" class="ion-padding">
+      <ion-item *ngFor="let item of productService.getCarrito()" lines="full">
+        <ion-thumbnail slot="start"><img [src]="item.imgUrl" /></ion-thumbnail>
+        <ion-label>
+          <h2 style="font-weight: 600;">{{ item.titulo }}</h2>
+          <p style="color: var(--ion-color-primary); font-weight: 700;">{{ item.precio }}€</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </ng-container>
 
-  <ng-container *ngIf="folder === 'cuenta' || folder === 'Archived'">
-    <div class="ion-padding animate-in profile-header" style="text-align: center;">
+  <ng-container *ngIf="folder === 'cuenta'">
+    <div class="ion-padding animate-in" style="text-align: center; padding-top: 40px;">
       <ion-avatar style="margin: 0 auto; width: 100px; height: 100px;">
-        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar" />
+        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
-      <h2 style="margin-top: 15px; font-weight: bold;">{{ username || 'Skater Pro' }}</h2>
-      <ion-list lines="inset" class="ion-margin-top">
-        <ion-item button><ion-icon name="receipt-outline" slot="start" color="primary"></ion-icon><ion-label>Mis Pedidos</ion-label></ion-item>
-        <ion-item button color="danger"><ion-icon name="log-out-outline" slot="start"></ion-icon><ion-label>Cerrar Sesión</ion-label></ion-item>
+      <h2 style="font-weight: 800; margin-top: 15px;">{{ username }}</h2>
+      
+      <ion-list lines="inset" class="ion-margin-top" style="border-radius: 15px; overflow: hidden;">
+        <ion-item button (click)="restablecerTodo()">
+          <ion-icon name="refresh-outline" slot="start" color="warning"></ion-icon>
+          <ion-label style="font-weight: 600;">Restablecer Catálogo</ion-label>
+        </ion-item>
+        <ion-item button color="danger" detail="false" style="margin-top: 10px;">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          <ion-label style="font-weight: 600;">Cerrar Sesión</ion-label>
+        </ion-item>
       </ion-list>
     </div>
   </ng-container>

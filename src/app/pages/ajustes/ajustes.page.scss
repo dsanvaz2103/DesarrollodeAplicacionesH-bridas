@@ -1,0 +1,45 @@
+// Estilo general para los items
+ion-item {
+    --padding-start: 16px;
+    --inner-padding-end: 16px;
+    margin: 8px 0;
+}
+
+// ARREGLO PARA MODO OSCURO
+:host-context(body.dark) {
+    // Forzamos el fondo del contenido
+    ion-content {
+        --background: #121212;
+    }
+
+    // Estilo de los items en modo oscuro
+    ion-item {
+        --background: #1e1e1e;
+        --color: #ffffff; // Esto arregla que no se vea el texto
+        
+        ion-label {
+            color: #ffffff !important;
+        }
+
+        ion-input {
+            --color: #ffffff;
+            color: #ffffff;
+        }
+    }
+
+    // Estilo de la tarjeta inferior
+    ion-card {
+        --background: #1e1e1e;
+        --color: #ffffff;
+        
+        p {
+            color: #bbbbbb !important;
+        }
+    }
+
+    // Los encabezados de sección
+    ion-list-header ion-label {
+        color: var(--ion-color-primary) !important;
+        opacity: 0.9;
+    }
+}

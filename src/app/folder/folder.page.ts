@@ -7,10 +7,15 @@ import {
   IonContent, IonList, IonListHeader, IonLabel, IonItem, 
   IonThumbnail, IonSkeletonText, IonButton, IonIcon, 
   IonGrid, IonRow, IonCol, IonAvatar, IonFab, IonFabButton, 
-  ModalController, AnimationController, IonSearchbar, IonSelect, IonSelectOption 
+  ModalController, AnimationController, IonSearchbar, IonSelect, IonSelectOption,
+  ToastController, IonBadge // <--- AÑADIDO IonBadge
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons'; 
-import { settingsOutline, cartOutline, flame, add, personOutline, moonOutline, receiptOutline, logOutOutline, swapVerticalOutline } from 'ionicons/icons'; 
+import { 
+  settingsOutline, cartOutline, flame, add, personOutline, 
+  moonOutline, receiptOutline, logOutOutline, swapVerticalOutline,
+  addCircleOutline, checkmarkCircleOutline, refreshOutline
+} from 'ionicons/icons'; 
 
 import { Producto } from '../interfaces/producto';
 import { DetalleModalComponent } from '../components/detalle-modal/detalle-modal.component';
@@ -28,7 +33,8 @@ import { SettingsService } from '../services/settings.service';
     IonContent, IonList, IonListHeader, IonLabel, IonItem, 
     IonThumbnail, IonSkeletonText, IonButton, IonIcon, 
     IonGrid, IonRow, IonCol, IonAvatar, IonFab, IonFabButton,
-    IonSearchbar, IonSelect, IonSelectOption
+    IonSearchbar, IonSelect, IonSelectOption,
+    IonBadge // <--- AÑADIDO AQUÍ TAMBIÉN
   ],
 })
 export class FolderPage implements OnInit {
@@ -49,12 +55,14 @@ export class FolderPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private modalCtrl: ModalController,
     private animationCtrl: AnimationController,
-    private productService: TaskService,
-    private settings: SettingsService 
+    public productService: TaskService, // <--- CAMBIADO A PUBLIC para el HTML
+    private settings: SettingsService,
+    private toastCtrl: ToastController
   ) {
     addIcons({ 
       settingsOutline, cartOutline, flame, add, personOutline, 
-      moonOutline, receiptOutline, logOutOutline, swapVerticalOutline 
+      moonOutline, receiptOutline, logOutOutline, swapVerticalOutline,
+      addCircleOutline, checkmarkCircleOutline, refreshOutline
     });
   }
 
@@ -74,7 +82,7 @@ export class FolderPage implements OnInit {
     }
   }
 
-  // --- LÓGICA DE FILTROS ---
+  // --- LÓGICA DE PRODUCTOS Y FILTROS ---
   obtenerProductos() {
     this.listaDeProductos = this.productService.getProductos(this.queryBusqueda, this.campoOrden);
     if (!this.cargandoProductos) {
@@ -92,6 +100,38 @@ export class FolderPage implements OnInit {
     this.obtenerProductos();
   }
 
+  // --- LÓGICA DEL CARRITO ---
+  async agregarAlCarrito(producto: Producto) {
+    this.productService.agregarAlCarrito(producto);
+
+    const toast = await this.toastCtrl.create({
+      message: `🛒 ${producto.titulo} añadido - ${producto.precio}€`,
+      duration: 1500,
+      position: 'bottom',
+      color: 'dark',
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel'
+        }
+      ]
+    });
+    await toast.present();
+  }
+
+  // --- MANTENIMIENTO ---
+  async restablecerTodo() {
+    await this.productService.restablecerCatalogo();
+    this.obtenerProductos();
+    
+    const toast = await this.toastCtrl.create({
+      message: 'Catálogo restablecido correctamente',
+      duration: 2000,
+      color: 'primary'
+    });
+    await toast.present();
+  }
+
   // --- CARGA Y ANIMACIONES ---
   private cargarProductosSimulados() {
     this.cargandoProductos = true;
@@ -99,7 +139,7 @@ export class FolderPage implements OnInit {
       this.obtenerProductos();
       this.cargandoProductos = false;
       setTimeout(() => this.reproducirAnimacionProductos(), 100);
-    }, 1500);
+    }, 1200);
   }
 
   private reproducirAnimacionProductos() {
@@ -110,17 +150,17 @@ export class FolderPage implements OnInit {
         .addElement(item)
         .duration(400)
         .fromTo('opacity', '0', '1')
-        .fromTo('transform', 'translateY(15px)', 'translateY(0px)')
+        .fromTo('transform', 'translateY(20px)', 'translateY(0px)')
         .delay(index * 40)
         .play();
     });
   }
 
-  // --- MODALES Y ACCIONES ---
+  // --- MODALES ---
   async abrirModalAgregar() {
     const modal = await this.modalCtrl.create({
       component: DetalleModalComponent,
-      componentProps: { producto: { id: 0, titulo: '', descripcion: '', imgUrl: '' } }
+      componentProps: { producto: { id: 0, titulo: '', descripcion: '', imgUrl: '', precio: 0 } }
     });
     await modal.present();
     const { data, role } = await modal.onDidDismiss();
@@ -128,9 +168,5 @@ export class FolderPage implements OnInit {
       await this.productService.agregarProducto(data);
       this.obtenerProductos();
     }
-  }
-
-  agregarAlCarrito(producto: Producto) {
-    console.log('Añadido al carrito:', producto.titulo);
   }
 }

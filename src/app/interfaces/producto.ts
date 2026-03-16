@@ -3,5 +3,5 @@ export interface Producto {
   titulo: string;
   descripcion: string;
   imgUrl: string;
+  precio: number; // <--- ESTA ES LA CLAVE
 }
-

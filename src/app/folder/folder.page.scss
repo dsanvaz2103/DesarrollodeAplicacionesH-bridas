@@ -2,22 +2,40 @@
 ion-item.card-sombreada {
   --background: #ffffff;
   --color: #000000;
-  margin: 8px 12px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --inner-padding-end: 10px;
+  --padding-start: 10px;
+  margin: 12px 16px;
+  border-radius: 16px;
+  /* Sombra más suave y moderna */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  // Efecto de presión al tocar
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
 }
 
+// Compatibilidad con el modo oscuro de Ionic
 :host-context(body.dark) {
   ion-item.card-sombreada {
     --background: #1e1e1e !important;
     --color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid #333;
+  }
+  
+  .category-card {
+    border: 1px solid #333;
   }
 }
 
 /* --- INICIO --- */
 .welcome-header {
-  margin: 10px 0 25px;
-  h1 { font-size: 2.2rem; font-weight: 800; margin: 0; }
+  margin: 15px 0 25px;
+  span { color: var(--ion-color-step-600); font-size: 1rem; }
+  h1 { font-size: 2.2rem; font-weight: 850; margin: 5px 0 0; letter-spacing: -0.5px; }
 }
 
 .promo-banner {
@@ -25,49 +43,95 @@ ion-item.card-sombreada {
   height: 180px;
   border-radius: 20px;
   overflow: hidden;
-  background: #111;
+  background: #000; // Fondo negro puro para el contraste
   display: flex;
   align-items: center;
   margin-bottom: 25px;
-  img { position: absolute; right: 0; width: 60%; height: 100%; object-fit: cover; opacity: 0.8; }
-  .promo-content { position: relative; z-index: 2; padding: 20px; width: 65%;
-    h2 { color: #fff; font-weight: 800; font-size: 1.5rem; margin: 0; }
-    p { color: #eee; font-size: 0.85rem; }
+  
+  img { 
+    position: absolute; 
+    right: 0; 
+    width: 65%; 
+    height: 100%; 
+    object-fit: cover; 
+    opacity: 0.7; // Bajamos un poco la opacidad para que el texto respire
+    mask-image: linear-gradient(to left, black 70%, transparent 100%); // Difuminado elegante
+  }
+
+  .promo-content { 
+    position: relative; 
+    z-index: 2; 
+    padding: 25px; 
+    width: 70%;
+    
+    h2 { color: #fff; font-weight: 900; font-size: 1.7rem; margin: 0; line-height: 1.1; }
+    p { color: #ccc; font-size: 0.9rem; margin: 8px 0 15px; }
   }
 }
 
 .category-card {
   position: relative;
   height: 130px;
-  margin: 6px;
-  border-radius: 15px;
+  margin: 4px; // Ajustado para el grid
+  border-radius: 18px;
   overflow: hidden;
   background: #222;
-  img { width: 100%; height: 100%; object-fit: cover; }
+  transition: transform 0.3s ease;
+
+  &:hover { transform: translateY(-3px); }
+
+  img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s all; }
+  
   .cat-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%);
     display: flex; align-items: flex-end; justify-content: flex-start;
-    padding: 12px;
-    span { color: #fff; font-weight: 700; font-size: 1.1rem; }
+    padding: 15px;
+    
+    span { color: #fff; font-weight: 800; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.5px; }
   }
 }
 
-.news-card { --background: var(--ion-color-step-50); border-radius: 15px; }
-
 /* --- OTROS --- */
 .empty-state-container {
-  text-align: center; margin-top: 60px;
-  ion-icon { font-size: 100px; color: var(--ion-color-step-200); }
-  h2 { font-weight: 700; }
+  text-align: center; 
+  padding: 40px 20px;
+  ion-icon { font-size: 110px; color: var(--ion-color-step-150); margin-bottom: 10px; }
+  h2 { font-weight: 800; color: var(--ion-color-step-800); }
+  p { color: var(--ion-color-step-500); }
 }
 
 .profile-header {
-  text-align: center;
-  ion-avatar { width: 100px; height: 100px; margin: 20px auto; border: 3px solid var(--ion-color-primary); }
+  ion-avatar { 
+    width: 110px; 
+    height: 110px; 
+    margin: 20px auto; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
 }
 
-.animate-in { animation: fadeInUp 0.4s ease-out forwards; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+/* --- ANIMACIONES --- */
+.animate-in { 
+  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; 
+}
 
-ion-thumbnail { --size: 70px; --border-radius: 8px; img { object-fit: cover; } }
+@keyframes fadeInUp { 
+  from { opacity: 0; transform: translateY(25px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
+// Ajuste para el Searchbar dentro de Toolbar
+.custom-search {
+  --background: var(--ion-color-primary-contrast);
+  --border-radius: 12px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+ion-thumbnail { 
+  --size: 75px; 
+  --border-radius: 12px; 
+  margin-top: 8px;
+  margin-bottom: 8px;
+  img { object-fit: contain; background: #f9f9f9; padding: 4px; } 
+}
