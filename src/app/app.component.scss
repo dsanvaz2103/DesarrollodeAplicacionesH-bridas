@@ -70,3 +70,35 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+/* --- Estilos personalizados para el Logo de Skate Shop --- */
+
+.menu-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 10px;
+  background-color: #ffffff; /* Fondo blanco para que el logo resalte */
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
+}
+
+.menu-logo {
+  max-width: 80%; /* Para que no toque los bordes del menú */
+  height: auto;
+  max-height: 150px; /* Evita que el logo sea demasiado alto */
+  object-fit: contain;
+}
+
+/* Mejora estética para los headers */
+ion-list-header {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--ion-color-dark);
+}
+
+/* Ajuste para que la nota (nombre de usuario) resalte un poco más */
+ion-note {
+  margin-top: 5px;
+  font-style: italic;
+}

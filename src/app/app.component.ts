@@ -9,7 +9,8 @@ import {
 import { addIcons } from 'ionicons';
 import { 
   homeOutline, storefrontOutline, cartOutline, 
-  personOutline, settingsOutline, moonOutline 
+  personOutline, settingsOutline, moonOutline,
+  mailOutline, buildOutline // 'buildOutline' es genial para representar "ejes" o "herramientas"
 } from 'ionicons/icons';
 
 import { SettingsService } from './services/settings.service'; 
@@ -39,9 +40,16 @@ export class AppComponent implements OnInit {
   public username: string = '';
 
   constructor(private settings: SettingsService) {
+    // Registramos solo iconos que existen 100% en la librería
     addIcons({ 
-      homeOutline, storefrontOutline, cartOutline, 
-      personOutline, settingsOutline, moonOutline 
+      homeOutline, 
+      storefrontOutline, 
+      cartOutline, 
+      personOutline, 
+      settingsOutline, 
+      moonOutline,
+      mailOutline, 
+      buildOutline 
     });
   }
 
@@ -50,10 +58,7 @@ export class AppComponent implements OnInit {
   }
 
   async cargarPreferencias() {
-    // Recuperamos tu nombre (Personalización)
     this.username = await this.settings.get('username') || 'Skater';
-
-    // Recuperamos el Modo Oscuro con la clave oficial 4.12
     const modoOscuro = await this.settings.get('modo_oscuro');
 
     if (modoOscuro) {

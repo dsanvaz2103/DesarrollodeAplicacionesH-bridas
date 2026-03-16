@@ -2,28 +2,44 @@
   <ion-split-pane contentId="main-content">
     
     <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Urban Skateshop</ion-list-header>
-          <ion-note>{{ username || 'Skater' }}</ion-note>
+      <ion-content style="--background: #1a1a1a; --color: #ffffff;">
+        
+        <div class="menu-logo-container" style="display: flex; justify-content: center; align-items: center; padding: 40px 20px 20px 20px; background: transparent;">
+          <img src="assets/img/logo.jpg" alt="Urban Skateshop Logo" style="max-height: 180px; width: auto; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3));">
+        </div>
 
+        <div class="user-profile-section" style="padding: 20px 16px; margin: 0 10px 15px 10px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+          
+          <ion-list-header style="font-weight: 800; text-transform: uppercase; color: #ffffff; font-size: 1.4rem; letter-spacing: 1px; padding: 0; min-height: auto; margin-bottom: 4px;">
+            Urban Skateshop
+          </ion-list-header>
+          
+          <ion-note style="font-size: 1rem; color: #2dd36f; /* Este es un turquesa neón de Ionic, cámbialo si prefieres otro azul */ font-weight: 500; padding: 0; display: block;">
+            {{ username || 'Skater' }}
+          </ion-note>
+
+        </div>
+        <ion-list id="inbox-list" style="background: transparent; padding: 0;">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
             <ion-item 
               routerDirection="root" 
               [routerLink]="[p.url]" 
               lines="none" 
               detail="false" 
-              routerLinkActive="selected">
-              <ion-icon aria-hidden="true" slot="start" [name]="p.icon"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
+              routerLinkActive="selected"
+              style="--border-radius: 8px; margin: 4px 10px; --background: transparent; --color: rgba(255,255,255,0.7);">
+              <ion-icon aria-hidden="true" slot="start" [name]="p.icon" style="color: rgba(255,255,255,0.5);"></ion-icon>
+              <ion-label style="font-weight: 500;">{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Categorías</ion-list-header>
-          <ion-item lines="none">
-            <ion-icon slot="start" name="bookmark-outline"></ion-icon>
+        <ion-list id="labels-list" style="background: transparent; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+          <ion-list-header style="font-weight: 700; text-transform: uppercase; color: rgba(255,255,255,0.5); font-size: 0.9rem; letter-spacing: 1.5px; padding-left: 16px;">
+            Categorías
+          </ion-list-header>
+          <ion-item lines="none" style="--background: transparent; --color: rgba(255,255,255,0.7); margin: 0 10px;">
+            <ion-icon slot="start" name="bookmark-outline" style="color: rgba(255,255,255,0.5);"></ion-icon>
             <ion-label>Ofertas Especiales</ion-label>
           </ion-item>
         </ion-list>

@@ -1,12 +1,20 @@
-<ion-item #card class="card-sombreada trend-card fade-in" lines="none">
-  <ion-thumbnail slot="start" class="product-thumb">
+<ion-item #card class="card-sombreada trend-card fade-in" lines="none" style="--padding-start: 10px; --padding-end: 10px; margin: 8px; border-radius: 12px; border: 1px solid #f0f0f0;">
+  
+  <ion-thumbnail slot="start" class="product-thumb" style="--border-radius: 8px; width: 60px; height: 60px;">
     <ion-img [src]="producto.imgUrl" alt="{{ producto.titulo }}"></ion-img>
   </ion-thumbnail>
-  <div class="ion-text-center">
-    <strong>{{ producto.titulo }}</strong><br>
-    {{ producto.descripcion }}
-  </div>
-  <ion-button color="primary" expand="block" slot="end">
-    Comprar
+
+  <ion-label class="ion-text-wrap" style="margin-left: 15px;">
+    <strong style="font-size: 1.1rem; text-transform: uppercase; color: #1a1a1a;">
+      {{ producto.titulo }}
+    </strong>
+    <p style="font-size: 0.9rem; color: #666; margin-top: 4px;">
+      {{ producto.descripcion }}
+    </p>
+  </ion-label>
+
+  <ion-button color="dark" fill="solid" slot="end" style="font-weight: bold; font-size: 0.8rem;" [routerLink]="['/detalle-producto', producto.id]">
+    VER
   </ion-button>
+  
 </ion-item>
