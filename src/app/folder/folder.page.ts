@@ -104,7 +104,7 @@ export class FolderPage implements OnInit {
       await Share.share({
         title: 'Urban Skate Shop',
         text: '¡Mira qué tablas de skate más guapas en la tienda de David!',
-        url: 'https://github.com/dsanvaz2103/DesarrollodeAplicacionesH-bridas', // Cambia por tu URL real
+        url: 'https://github.com/dsanvaz2103/DesarrollodeAplicacionesH-bridas', 
         dialogTitle: 'Compartir con amigos',
       });
       await Haptics.impact({ style: ImpactStyle.Light });
