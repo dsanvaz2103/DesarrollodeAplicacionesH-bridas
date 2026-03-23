@@ -9,6 +9,10 @@
     </ion-title>
 
     <ion-buttons slot="end">
+      <ion-button (click)="compartirApp()">
+        <ion-icon slot="icon-only" name="share-social-outline"></ion-icon>
+      </ion-button>
+
       <ion-button routerLink="/folder/carrito" style="position: relative;">
         <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
         <ion-badge *ngIf="productService.getCarrito().length > 0" 
@@ -59,7 +63,7 @@
                   style="margin: 10px 16px; --border-radius: 12px; border: 1px solid #f0f0f0;">
           
           <ion-thumbnail slot="start" style="padding: 5px;" [routerLink]="['/detalle-producto', prod.id]">
-            <img [src]="prod.imgUrl" style="border-radius: 8px; object-fit: contain;" onerror="this.src='assets/img/logo.png'"/>
+            <ion-img [src]="prod.imgUrl" style="border-radius: 8px; object-fit: contain;"></ion-img>
           </ion-thumbnail>
 
           <ion-label [routerLink]="['/detalle-producto', prod.id]">
@@ -120,9 +124,9 @@
     </div>
 
     <div *ngIf="productService.getCarrito().length > 0">
-      <ion-list class="ion-padding">
+      <ion-list class="ion-padding-horizontal ion-margin-top">
         <ion-item *ngFor="let item of productService.getCarrito()" lines="full">
-          <ion-thumbnail slot="start"><img [src]="item.imgUrl" /></ion-thumbnail>
+          <ion-thumbnail slot="start"><ion-img [src]="item.imgUrl"></ion-img></ion-thumbnail>
           <ion-label>
             <h2 style="font-weight: 600;">{{ item.titulo }}</h2>
             <p style="color: var(--ion-color-primary); font-weight: 700;">{{ item.precio | number:'1.2-2' }}€</p>
@@ -132,6 +136,40 @@
           </ion-button>
         </ion-item>
       </ion-list>
+
+      <ion-card class="ion-margin" style="border-radius: 15px; border: 1px solid #f0f0f0;">
+        <ion-card-header>
+          <ion-card-subtitle color="primary">UT 6.2 - Geolocalización</ion-card-subtitle>
+          <ion-card-title style="font-size: 1.1rem; font-weight: 700;">Punto de Entrega</ion-card-title>
+        </ion-card-header>
+        
+        <ion-card-content>
+          <div *ngIf="!locationService.latitud" style="text-align: center; padding: 10px 0;">
+            <p style="color: #666;">Detecta tu ubicación para calcular el envío.</p>
+          </div>
+          
+          <div *ngIf="locationService.latitud" class="ion-margin-bottom">
+            <ion-item lines="none" style="--padding-start: 0; --background: transparent;">
+              <ion-icon name="map-outline" slot="start" color="primary"></ion-icon>
+              <ion-label>
+                <p style="font-weight: 700; color: #333;">Coordenadas actualizadas:</p>
+                <p style="font-size: 0.85rem;">Lat: {{ locationService.latitud | number:'1.1-4' }}</p>
+                <p style="font-size: 0.85rem;">Lon: {{ locationService.longitud | number:'1.1-4' }}</p>
+              </ion-label>
+              <ion-button slot="end" fill="clear" 
+                [href]="'https://www.google.com/maps/search/?api=1&query=' + locationService.latitud + ',' + locationService.longitud" 
+                target="_blank">
+                <ion-icon name="open-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </div>
+
+          <ion-button expand="block" fill="outline" shape="round" (click)="obtenerGPS()">
+            <ion-icon name="locate-outline" slot="start"></ion-icon>
+            {{ locationService.latitud ? 'Actualizar Ubicación' : 'Obtener mi Ubicación' }}
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
 
       <div class="ion-padding" style="border-top: 2px dashed #eee; margin-top: 10px;">
         <ion-row class="ion-align-items-center">
@@ -151,10 +189,21 @@
 
   <ng-container *ngIf="folder === 'cuenta'">
     <div class="ion-padding" style="text-align: center; padding-top: 40px;">
-      <ion-avatar style="margin: 0 auto; width: 100px; height: 100px;">
-        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-avatar>
-      <h2 style="font-weight: 800; margin-top: 15px;">{{ username }}</h2>
+      
+      <div style="position: relative; width: 120px; margin: 0 auto;">
+        <ion-avatar style="width: 120px; height: 120px; border: 3px solid var(--ion-color-primary); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+          <ion-img [src]="photoService.foto || 'https://ionicframework.com/docs/img/demos/avatar.svg'"></ion-img>
+        </ion-avatar>
+        
+        <ion-fab-button size="small" (click)="cambiarFotoPerfil()" 
+                        style="position: absolute; bottom: 0; right: 0; --background: var(--ion-color-secondary);">
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-fab-button>
+      </div>
+
+      <h2 style="font-weight: 800; margin-top: 20px;">{{ username }}</h2>
+      <p style="color: #666; margin-top: -10px;">Skater Community Member</p>
+
       <ion-list lines="inset" class="ion-margin-top" style="border-radius: 15px; overflow: hidden;">
         <ion-item button (click)="restablecerTodo()">
           <ion-icon name="refresh-outline" slot="start" color="warning"></ion-icon>

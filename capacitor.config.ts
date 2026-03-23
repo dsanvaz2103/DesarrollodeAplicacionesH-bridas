@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'mi-app-menu',
+  appId: 'com.davidskate.urbanshop', // <-- ID único profesional
+  appName: 'Urban Skate Shop',      // <-- El nombre real de tu tienda
   webDir: 'www'
 };
 
