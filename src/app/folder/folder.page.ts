@@ -103,7 +103,7 @@ export class FolderPage implements OnInit {
     try {
       await Share.share({
         title: 'Urban Skate Shop',
-        text: '¡Mira qué tablas de skate más guapas en la tienda de Javi!',
+        text: '¡Mira qué tablas de skate más guapas en la tienda de Davi!',
         url: 'https://github.com/tu-usuario/tu-repo', // Cambia por tu URL real
         dialogTitle: 'Compartir con amigos',
       });
