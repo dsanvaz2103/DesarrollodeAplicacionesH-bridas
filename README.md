@@ -64,7 +64,8 @@ He personalizado la identidad visual sustituyendo los recursos por defecto:
 
 | Icono de la App | Pantalla de Carga (Splash) |
 | :---: | :---: |
-| ![Icono](screenshots/icono_personalizado.png) | ![Splash](screenshots/splash_personalizado.png) | | ![Icono Implementado en la app](screenshots/icono_app.jpg) |
+| ![Icono](screenshots/icono_personalizado.png) | ![Splash](screenshots/splash_personalizado.png) | 
+| ![Icono Implementado en la app](screenshots/icono_app.jpg) |
 
 
 ### 📦 7.2 & 7.3 Compilación y Firma (AAB)
