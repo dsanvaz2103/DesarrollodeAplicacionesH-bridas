@@ -83,6 +83,17 @@ He preparado el material gráfico obligatorio para la Google Play Console en la 
 | :---: | :---: |
 | ![Banner](assets/docs/store/feature_graphic.png) | ![Icono Tienda](assets/docs/store/icono_tienda.png) |
 
+### 📈 7.5 Estrategia de Marketing y ASO (RA5.ce5)
+He diseñado un plan de lanzamiento para maximizar las descargas de **Urban Skate Shop**:
+
+* **Optimización ASO:** Selección de keywords estratégicas y redacción de ficha persuasiva.
+* **Canales Sociales:** Estrategia focalizada en Instagram y TikTok para atraer tráfico.
+* **Material Gráfico:** Diseño de piezas promocionales de alta calidad siguiendo la estética "grange" de la cultura skate, disponibles en la carpeta `/docs/store`.
+
+| Banner Publicitario (1024x500) | Post Promocional Redes (1080x1080) |
+| :---: | :---: |
+| ![Banner](docs/store/feature_graphic.png) | ![Post](docs/store/post_marketing_instagram.png) |
+
 ### 7.6 Mantenimiento y Ciclo de Vida 🔄
 Plan de futuro: Actualización de `versionCode` mensual y revisión de compatibilidad con Android 15+.
 
