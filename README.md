@@ -57,37 +57,34 @@ La aplicación es totalmente funcional y fluida en entorno nativo.
 ## 7. Despliegue, Marketing y Lanzamiento (UT7 Completa) 🚀
 
 ### 🎨 7.1 Imagen de Marca: Iconografía y Splash Screen
-He personalizado la identidad visual sustituyendo los recursos por defecto:
-* **Icono:** Logo vintage adaptativo generado para todas las densidades de pantalla.
-* **Splash Screen:** Imagen real de la tienda (expositor de tablas) para una carga inmersiva.
-* **Herramienta:** Uso de `@capacitor/assets` para la generación automática.
+He personalizado la identidad visual de la App para una carga inmersiva:
+* **Icono:** Logo vintage adaptativo generado para todas las densidades.
+* **Splash Screen:** Imagen real de la tienda (expositor de tablas).
 
 | Icono de la App | Pantalla de Carga (Splash) |
 | :---: | :---: |
 | ![Icono](screenshots/icono_personalizado.png) | ![Splash](screenshots/splash_personalizado.png) |
-| ![Icono Implementado en la app](screenshots/icono_app.png)
 
 ### 📦 7.2 & 7.3 Compilación y Firma (AAB)
-He generado el ejecutable final bajo los estándares de Google Play Store:
-* **Formato AAB:** Generación de un *Android App Bundle* para optimizar el peso de la descarga.
-* **Firma Digital:** Creación de un almacén de claves seguro (`david-skate.keystore`) y alias `urban-skate-alias`.
-* **Modo Release:** Compilación optimizada mediante `ionic build --prod`.
+* **Formato AAB:** Android App Bundle generado para optimizar el peso en la descarga.
+* **Firma Digital:** Certificado digital `david-skate.keystore` con alias `urban-skate-alias`.
 
 | Firma Keystore | Bundle Generado (.aab) |
 | :---: | :---: |
 | ![Keystore](screenshots/keystore_evidencia.png) | ![Bundle](screenshots/bundle_success.png) |
 
-### 7.4 & 7.5 Ficha de la Tienda y ASO 📈
-Estrategia de posicionamiento diseñada:
-- **ASO:** Keywords clave como "Skate Shop", "Tablas de Skate", "Tienda Urbana".
-- **Descripción:** "La tienda definitiva para skaters. Compra marcas como Baker o Element con precisión de envío por GPS".
-- **Categoría:** Compras / Deportes.
+### 🖼️ 7.4 Ficha de la Tienda y Press Kit (ASO)
+He preparado el material gráfico obligatorio para la Google Play Console en la carpeta `/docs/store`:
+
+* **Feature Graphic:** Banner publicitario diseñado con la foto de la tienda y el logo corporativo.
+* **Keywords:** Skate Shop, Tablas Online, Envío GPS, David SV.
+
+| Banner Publicitario (1024x500) | Icono Tienda (512x512) |
+| :---: | :---: |
+| ![Banner](docs/store/feature_graphic.png) | ![Icono Tienda](docs/store/icono_tienda.png) |
 
 ### 7.6 Mantenimiento y Ciclo de Vida 🔄
-Plan de futuro para la aplicación:
-1. **Actualizaciones:** Incremento de `versionCode` en cada nuevo despliegue.
-2. **Seguridad:** Revisión trimestral de permisos de Cámara y GPS.
-3. **Mantenimiento:** Actualización de plugins de Capacitor para compatibilidad con Android 15+.
+Plan de futuro: Actualización de `versionCode` mensual y revisión de compatibilidad con Android 15+.
 
 ---
-**Estado Final:** Aplicación empaquetada, firmada y lista para producción.
+**Estado Final:** Proyecto completado, firmado y listo para producción.
