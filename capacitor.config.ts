@@ -1,9 +1,9 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.davidskate.urbanshop', // <-- ID único profesional
-  appName: 'Urban Skate Shop',      // <-- El nombre real de tu tienda
-  webDir: 'www'
+  appId: 'com.sanchez.urbanskate', // <--- Este es tu identificador único
+  appName: 'Urban Skate Shop',     // <--- El nombre que aparecerá bajo el icono
+  webDir: 'www',
 };
 
 export default config;

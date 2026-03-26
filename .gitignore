@@ -68,3 +68,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Llaves de firma de Android (Seguridad)
+*.keystore
+*.jks
+*.p12
+
+# Archivos de salida de compilación (opcional, para no llenar GitHub de basura)
+*.aab
+*.apk
