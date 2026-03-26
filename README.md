@@ -81,7 +81,7 @@ He preparado el material gráfico obligatorio para la Google Play Console en la 
 
 | Banner Publicitario (1024x500) | Icono Tienda (512x512) |
 | :---: | :---: |
-| ![Banner](docs/store/feature_graphic.png) | ![Icono Tienda](docs/store/icono_tienda.png) |
+| ![Banner](assets/docs/store/feature_graphic.png) | ![Icono Tienda](assets/docs/store/icono_tienda.png) |
 
 ### 7.6 Mantenimiento y Ciclo de Vida 🔄
 Plan de futuro: Actualización de `versionCode` mensual y revisión de compatibilidad con Android 15+.
