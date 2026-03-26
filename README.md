@@ -92,7 +92,7 @@ He diseñado un plan de lanzamiento para maximizar las descargas de **Urban Skat
 
 | Banner Publicitario (1024x500) | Post Promocional Redes (1080x1080) |
 | :---: | :---: |
-| ![Banner](docs/store/feature_graphic.png) | ![Post](docs/store/post_marketing_instagram.png) |
+| ![Banner](assets/store/feature_graphic.png) | ![Post](assets/store/post_marketing_instagram.png) |
 
 ### 7.6 Mantenimiento y Ciclo de Vida 🔄
 Plan de futuro: Actualización de `versionCode` mensual y revisión de compatibilidad con Android 15+.
